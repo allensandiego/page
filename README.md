@@ -1,8 +1,12 @@
-#
+
 # Welcome to my Page
 
-I am a programmer by profession. Mostly related on ERP. I do a lot of sql queries/reports and stored procedures on the back-end side but I am also proficient in unix scripting. On the front-end side, I've dealt mostly Oracle E-Business Suite, Oracle Application Express and other Oracle products.
+An experienced and detail-oriented Oracle Developer with over 10 years of expertise in database design, development, and optimization within Oracle environments. Skilled in SQL, PL/SQL, Oracle E-Business Suite, Oracle Taleo Enterprise Edition, Oracle Fusion Applications, I specialize in building scalable, high-performance database applications that meet business needs. Adept at designing stored procedures, and implementing effective solutions for data management, reporting, and business logic automation. I possess a strong understanding of data modeling, performance tuning, and troubleshooting to ensure maximum efficiency and reliability of Oracle systems.
 
-When I'm not at work, I still do a bit of programming, mainly building android applications, a little bit of spring boot applications, setup home labs, home servers for personal use and some other things that I might think of.
+Key Skills:
 
-If I'm too lazy to program, I revert to woodworking, metal works and other DIY stuff. 
+- Oracle Database
+- SQL & PL/SQL Development
+- Oracle Forms & Reports
+- Data Modeling & Database Design
+- Application Integration & Web Services
