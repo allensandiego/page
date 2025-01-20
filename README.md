@@ -2,8 +2,8 @@ An experienced and detail-oriented Oracle Developer with over 10 years of expert
 
 Key Skills:
 
--Oracle Database
--SQL & PL/SQL Development
--Oracle Forms & Reports
--Data Modeling & Database Design
--Application Integration & Web Services
+- Oracle Database
+- SQL & PL/SQL Development
+- Oracle Forms & Reports
+- Data Modeling & Database Design
+- Application Integration & Web Services
