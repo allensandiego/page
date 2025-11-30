@@ -71,6 +71,16 @@ section {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+.project-card-title {
+    font-weight: 1000;
+    font-size: larger;
+}
+
+.project-card-subtitle {
+    font-weight: 500;
+    font-size: x-small;
+}
+
 .skills-list {
     display: flex;
     flex-wrap: wrap;
