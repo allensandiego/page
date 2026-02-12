@@ -23,8 +23,8 @@ nav {
 }
 
 .profile-pic {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     object-fit: cover;
 }
