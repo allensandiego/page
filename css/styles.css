@@ -16,10 +16,18 @@ nav {
     align-items: center;
 }
 
-.logo {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 700;
+.nav-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #6cf;
 }
 
 nav ul {
@@ -68,13 +76,13 @@ section {
     background: #fff;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .project-card-title {
