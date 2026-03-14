@@ -1,0 +1,19 @@
+- category: Oracle Ecosystem
+  items:
+    - Oracle APEX
+    - Oracle SQL & PL/SQL
+    - Database Design & Optimization
+    - REST & SOAP Integration
+    - Oracle E-Business Suite R12
+    - Oracle Fusion HCM
+    - Taleo Enterprise
+
+- category: Full-Stack Toolset
+  items:
+    - Bash Scripting
+    - Python
+    - Java
+    - TypeScript
+    - HTML & JavaScript
+    - Git & GitHub
+    - CI/CD Workflows

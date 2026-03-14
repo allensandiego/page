@@ -1,0 +1,43 @@
+- title: Talent
+  subtitle: Web Application
+  description: Strategically manage the entire employee lifecycle from hiring and development to retention and succession planning to align workforce capabilities with business goals.
+  status: On-going development
+  link: https://talent.aensoft.com
+  internal_link: null
+
+- title: Gluconitor
+  subtitle: Web Application
+  description: Whether you are tracking glucose levels, logging nutrition, or managing medication, Gluconitor provides a sleek and intuitive interface to help you stay on top of your wellness journey.
+  link: https://gluconitor.allensandiego.com
+  internal_link: ./gluconitor
+
+- title: Vrooomed
+  subtitle: Web Application
+  description: From fueling records to maintenance logs, keep everything organized in one secure place.
+  link: https://vrooomed.allensandiego.com
+  internal_link: ./vrooomed
+
+- title: Azure DevOps extension for Visual Studio Code
+  subtitle: Developer Tools
+  description: A simple Visual Studio Code extension that helps you manage your Work Items more easily.
+  link: https://marketplace.visualstudio.com/items?itemName=allensandiego.as-azure-devops
+
+- title: Peek for Shinobi Video
+  subtitle: Android
+  description: Peek is an android client application for your Shinobi Video server.
+  link: https://play.google.com/store/apps/details?id=com.allensandiego.peek
+
+- title: Movie TV Person
+  subtitle: Android
+  description: Movie TV Person is an android client application for TMDb.
+  link: https://play.google.com/store/apps/details?id=com.allensandiego.movieportal
+
+- title: Quiz Time
+  subtitle: Android
+  description: Quiz Time is an android trivia game.
+  link: https://play.google.com/store/apps/details?id=com.allensandiego.quiztime
+
+- title: Home Assistant Integration for Shinobi
+  subtitle: Integration
+  description: This is a custom integration of the NVR Shinobi.Video for Home Assistant through HACS.
+  link: https://github.com/allensandiego/ha-integration-shinobi

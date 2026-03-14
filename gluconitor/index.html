@@ -1,126 +1,106 @@
 ---
+layout: default
+title: Gluconitor - Health Management
 ---
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    {% include head-custom.html %}
-    <title>Gluconitor - Health Management</title>
-</head>
+<section id="hero">
+    <h2>Gluconitor</h2>
+    <p>A dedicated tool to track and manage your daily glucose, nutrition, activity, and medication in one place.
+    </p>
+    <div class="hero-actions">
+        <a href="https://gluconitor.allensandiego.com" class="btn" target="_blank" rel="noopener noreferrer">Launch App</a>
+    </div>
+</section>
 
-<body>
+<section id="about">
+    <h2>About Gluconitor</h2>
+    <p>Gluconitor is a comprehensive health-tracking application designed to empower individuals with diabetes to
+        monitor their glucose levels, nutrition, physical activity, and medication in one seamless experience.
+        Available for Android, and Web.
+    </p>
+</section>
 
-    {% include nav-header.html %}
+<section id="features">
+    <h2>Key Features</h2>
 
-    <section id="hero">
-        <h2>Gluconitor</h2>
-        <p>A dedicated tool to track and manage your daily glucose, nutrition, activity, and medication in one place.
-        </p>
-        <div class="hero-actions">
-            <a href="https://gluconitor.allensandiego.com" class="btn" target="_blank">Launch App</a>
+    <h3>Comprehensive Health Tracking</h3>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-card-title">Glucose Logging</div>
+            <p>Track blood sugar readings with specialized meal categories (Before Meal, After Meal, Fasting, etc.).
+            </p>
         </div>
-    </section>
-
-    <section id="about">
-        <h2>About Gluconitor</h2>
-        <p>Gluconitor is a comprehensive health-tracking application designed to empower individuals with diabetes to
-            monitor their glucose levels, nutrition, physical activity, and medication in one seamless experience.
-            Available for Android, and Web.
-        </p>
-    </section>
-
-    <section id="features">
-        <h2>Key Features</h2>
-
-        <h3>Comprehensive Health Tracking</h3>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-card-title">Glucose Logging</div>
-                <p>Track blood sugar readings with specialized meal categories (Before Meal, After Meal, Fasting, etc.).
-                </p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Nutrition Management</div>
-                <p>Detailed food logging including Carbohydrates, Protein, Fat, and Calories to monitor glycemic impact.
-                </p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Exercise Journal</div>
-                <p>Log activities with duration and intensity levels to monitor your daily activity.</p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Medication Records</div>
-                <p>Keep a precise history of insulin or oral medication dosages, including units and specific timing.
-                </p>
-            </div>
+        <div class="project-card">
+            <div class="project-card-title">Nutrition Management</div>
+            <p>Detailed food logging including Carbohydrates, Protein, Fat, and Calories to monitor glycemic impact.
+            </p>
         </div>
-
-        <h3>Insights & Analytics</h3>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-card-title">At-a-glance Dashboard</div>
-                <p>Unified view of your latest glucose reading and a trend chart of your most recent data.</p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Chronological Timeline</div>
-                <p>A beautiful, filterable list of every health event you've logged in perfect order.</p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Native Ad Integration</div>
-                <p>Non-intrusive ads that support the free nature of the platform.</p>
-            </div>
+        <div class="project-card">
+            <div class="project-card-title">Exercise Journal</div>
+            <p>Log activities with duration and intensity levels to monitor your daily activity.</p>
         </div>
-
-        <h3>Data Management & Portability</h3>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-card-title">Multi-Format Export</div>
-                <p>Export your data to CSV, JSON, or Excel (XLSX) for personal backup or use in external tools.</p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Doctor's Report (PDF)</div>
-                <p>Generate professional, formatted PDF summaries with custom date ranges and clinical notes to share
-                    with your healthcare provider.</p>
-            </div>
+        <div class="project-card">
+            <div class="project-card-title">Medication Records</div>
+            <p>Keep a precise history of insulin or oral medication dosages, including units and specific timing.
+            </p>
         </div>
+    </div>
 
-        <h3>Security & Privacy</h3>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-card-title">Secure Authentication</div>
-                <p>Multi-provider login support including Google, Facebook, Microsoft, and standard Email/Password.</p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Full Data Sovereignty</div>
-                <p>A permanent account deletion tool that performs a secure wipe of all personal data from Firestore
-                    before account closure.</p>
-            </div>
-            <div class="project-card">
-                <div class="project-card-title">Privacy-First</div>
-                <p>Integrated Privacy Policy and Terms of Service accessible directly within the app.</p>
-            </div>
+    <h3>Insights & Analytics</h3>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-card-title">At-a-glance Dashboard</div>
+            <p>Unified view of your latest glucose reading and a trend chart of your most recent data.</p>
         </div>
-    </section>
+        <div class="project-card">
+            <div class="project-card-title">Chronological Timeline</div>
+            <p>A beautiful, filterable list of every health event you've logged in perfect order.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-card-title">Native Ad Integration</div>
+            <p>Non-intrusive ads that support the free nature of the platform.</p>
+        </div>
+    </div>
 
-    <section id="tech-stack">
-        <h2>Tech Stack</h2>
-        <!-- Tech stack details were requested from this file but it was empty. -->
-        <!-- Populating with potential stack based on project description/common use. -->
-        <ul class="skills-list">
-            <li>Firebase Authentication</li>
-            <li>Firebase Firestore</li>
-            <li>Firebase Hosting</li>
-            <li>Firebase Cloud Functions</li>
-            <li>Flutter Web</li>
-            <li>Flutter Android</li>
-        </ul>
-    </section>
+    <h3>Data Management & Portability</h3>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-card-title">Multi-Format Export</div>
+            <p>Export your data to CSV, JSON, or Excel (XLSX) for personal backup or use in external tools.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-card-title">Doctor's Report (PDF)</div>
+            <p>Generate professional, formatted PDF summaries with custom date ranges and clinical notes to share
+                with your healthcare provider.</p>
+        </div>
+    </div>
 
-    <footer>
-        <p>© 2026 Allen Sandiego. Built with 💻 and ☕</p>
-    </footer>
+    <h3>Security & Privacy</h3>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-card-title">Secure Authentication</div>
+            <p>Multi-provider login support including Google, Facebook, Microsoft, and standard Email/Password.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-api-title">Full Data Sovereignty</div>
+            <p>A permanent account deletion tool that performs a secure wipe of all personal data from Firestore
+                before account closure.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-card-title">Privacy-First</div>
+            <p>Integrated Privacy Policy and Terms of Service accessible directly within the app.</p>
+        </div>
+    </div>
+</section>
 
-    <script src="../script.js"></script>
-</body>
-
-</html>
+<section id="tech-stack">
+    <h2>Tech Stack</h2>
+    <ul class="skills-list">
+        <li>Firebase Authentication</li>
+        <li>Firebase Firestore</li>
+        <li>Firebase Hosting</li>
+        <li>Firebase Cloud Functions</li>
+        <li>Flutter Web</li>
+        <li>Flutter Android</li>
+    </ul>
+</section>
