@@ -1,162 +1,79 @@
 ---
+layout: default
 ---
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    {% include head-custom.html %}
-    <title>Allen Sandiego</title>
-</head>
+<section id="hero">
+    <h2>Hello, I'm <span>Allen</span></h2>
+    <p>Software Developer • Engineer • Problem Solver</p>
+    <a href="#projects" class="btn">View My Work</a>
+</section>
 
-<body>
+<section id="about">
+    <h2>About Me</h2>
 
-    {% include nav-header.html %}
+    <p>Seasoned Technology Professional specializing in the Oracle ecosystem, with deep functional and technical
+        expertise across key enterprise platforms. My professional focus lies specifically in the implementation,
+        development, and support of Oracle E-Business Suite R12, Oracle Fusion HCM, Oracle Taleo Enterprise, and
+        Oracle Application Express (APEX). I excel at designing and developing robust, scalable Oracle solutions.
+    </p>
 
-    <section id="hero">
-        <h2>Hello, I'm <span>Allen</span></h2>
-        <p>Software Developer • Engineer • Problem Solver</p>
-        <a href="#projects" class="btn">View My Work</a>
-    </section>
+    <p>A core strength of my profile lies in enterprise application integration. I possess significant experience
+        connecting disparate systems using industry-standard protocols, expertly leveraging both SOAP APIs and REST
+        APIs. I am highly proficient in handling and manipulating common data interchange formats, including XML and
+        JSON responses, ensuring seamless data flow and process automation within complex IT landscapes.</p>
 
-    <section id="about">
-        <h2>About Me</h2>
+    <p>Beyond my Oracle specializations and integration skills, I maintain a versatile full-stack skill set. My
+        background includes practical experience in automation via Bash scripting, along with development
+        capabilities using modern languages such as Java, Python, and TypeScript. I also have experience with
+        Android development.</p>
 
-        <p>Seasoned Technology Professional specializing in the Oracle ecosystem, with deep functional and technical
-            expertise across key enterprise platforms. My professional focus lies specifically in the implementation,
-            development, and support of Oracle E-Business Suite R12, Oracle Fusion HCM, Oracle Taleo Enterprise, and
-            Oracle Application Express (APEX). I excel at designing and developing robust, scalable Oracle solutions.
-        </p>
+    <p>Outside the realm of code and enterprise software, I apply precision and craftsmanship in hands-on hobbies
+        like woodworking and metalworking. I also enjoy the challenging and strategic world of PC gaming,
+        particularly 'Souls-like' titles, which reinforce my persistence and analytical approach to overcoming
+        complex obstacles. This blend of specialized technical acumen and diverse personal interests defines my
+        well-rounded and dedicated engineering mindset.</p>
+</section>
 
-        <p>A core strength of my profile lies in enterprise application integration. I possess significant experience
-            connecting disparate systems using industry-standard protocols, expertly leveraging both SOAP APIs and REST
-            APIs. I am highly proficient in handling and manipulating common data interchange formats, including XML and
-            JSON responses, ensuring seamless data flow and process automation within complex IT landscapes.</p>
-
-        <p>Beyond my Oracle specializations and integration skills, I maintain a versatile full-stack skill set. My
-            background includes practical experience in automation via Bash scripting, along with development
-            capabilities using modern languages such as Java, Python, and TypeScript. I also have experience with
-            Android development.</p>
-
-        <p>Outside the realm of code and enterprise software, I apply precision and craftsmanship in hands-on hobbies
-            like woodworking and metalworking. I also enjoy the challenging and strategic world of PC gaming,
-            particularly 'Souls-like' titles, which reinforce my persistence and analytical approach to overcoming
-            complex obstacles. This blend of specialized technical acumen and diverse personal interests defines my
-            well-rounded and dedicated engineering mindset.</p>
-    </section>
-
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="project-grid">
-
-            <div class="project-card">
-                <div class="project-card-title">Talent</div>
-                <div class="project-card-subtitle">Web Application</div>
-                <p>Strategically manage the entire employee lifecycle from hiring and development to retention and
-                    succession planning to align workforce capabilities with business goals.</p>
-                <p>On-going development</p>
-                <a href="https://talent.aensoft.com" target="_blank">View demo here →</a>
+<section id="projects">
+    <h2>Projects</h2>
+    <div class="project-grid">
+        {% for project in site.data.projects %}
+        <div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
+            <div class="project-card-title">
+                {% if project.internal_link %}
+                <a href="{{ project.internal_link | relative_url }}">{{ project.title }}</a>
+                {% else %}
+                {{ project.title }}
+                {% endif %}
             </div>
-
-            <div class="project-card" style="cursor: pointer;">
-                <div class="project-card-title"><a href="./gluconitor">Gluconitor</a></div>
-                <div class="project-card-subtitle">Web Application</div>
-                <p>Whether you are tracking glucose levels, logging nutrition, or managing medication, Gluconitor
-                    provides a sleek and intuitive interface to help you stay on top of your wellness journey.</p>
-                <a href="https://gluconitor.allensandiego.com" target="_blank">View website here →</a>
-            </div>
-
-            <div class="project-card" style="cursor: pointer;">
-                <div class="project-card-title"><a href="./vrooomed">Vrooomed</a></div>
-                <div class="project-card-subtitle">Web Application</div>
-                <p>From fueling records to maintenance logs, keep everything organized in one secure place.
-                </p>
-                <a href="https://vrooomed.allensandiego.com" target="_blank">View website here →</a>
-            </div>
-
-            <div class="project-card">
-                <div class="project-card-title">Azure DevOps extension for Visual Studio Code</div>
-                <div class="project-card-subtitle">Developer Tools</div>
-                <p>A simple Visual Studio Code extension that helps you manage your Work Items more easily.</p>
-                <a href="https://marketplace.visualstudio.com/items?itemName=allensandiego.as-azure-devops"
-                    target="_blank">View on Visual Studio Marketplace →</a>
-            </div>
-
-            <div class="project-card">
-                <div class="project-card-title">Peek for Shinobi Video</div>
-                <div class="project-card-subtitle">Android</div>
-                <p>Peek is an android client application for your Shinobi Video server.</p>
-                <a href="https://play.google.com/store/apps/details?id=com.allensandiego.peek" target="_blank">View on
-                    Google Play Store →</a>
-            </div>
-
-            <div class="project-card">
-                <div class="project-card-title">Movie TV Person</div>
-                <div class="project-card-subtitle">Android</div>
-                <p>Movie TV Person is an android client application for <a href="https://www.themoviedb.org/"
-                        target="_blank">TMDb</a>.</p>
-                <a href="https://play.google.com/store/apps/details?id=com.allensandiego.movieportal"
-                    target="_blank">View on
-                    Google Play Store →</a>
-            </div>
-
-            <div class="project-card">
-                <div class="project-card-title">Quiz Time</div>
-                <div class="project-card-subtitle">Android</div>
-                <p>Quiz Time is an android trivia game.</p>
-                <a href="https://play.google.com/store/apps/details?id=com.allensandiego.quiztime" target="_blank">View
-                    on
-                    Google Play Store →</a>
-            </div>
-
-            <div class="project-card">
-                <div class="project-card-title">Home Assistant Integration for Shinobi</div>
-                <div class="project-card-subtitle">Integration</div>
-                <p>This is a custom integration of the NVR Shinobi.Video for Home Assistant through HACS.</p>
-                <a href="https://github.com/allensandiego/ha-integration-shinobi" target="_blank">View on GitHub →</a>
-            </div>
-
+            <div class="project-card-subtitle">{{ project.subtitle }}</div>
+            <p>{{ project.description }}</p>
+            {% if project.status %}
+            <p>{{ project.status }}</p>
+            {% endif %}
+            <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer">View here →</a>
         </div>
-    </section>
+        {% endfor %}
+    </div>
+</section>
 
-    <section id="skills">
-        <h2>Technical Skills</h2>
+<section id="skills">
+    <h2>Technical Skills</h2>
 
-        <h3>Oracle Ecosystem</h3>
-        <ul class="skills-list">
-            <li>Oracle APEX</li>
-            <li>Oracle SQL & PL/SQL</li>
-            <li>Database Design & Optimization</li>
-            <li>REST & SOAP Integration</li>
-            <li>Oracle E-Business Suite R12</li>
-            <li>Oracle Fusion HCM</li>
-            <li>Taleo Enterprise</li>
-        </ul>
+    {% for category in site.data.skills %}
+    <h3>{{ category.category }}</h3>
+    <ul class="skills-list">
+        {% for item in category.items %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</section>
 
-        <h3>Full-Stack Toolset</h3>
-        <ul class="skills-list">
-            <li>Bash Scripting</li>
-            <li>Python</li>
-            <li>Java</li>
-            <li>TypeScript</li>
-            <li>HTML & JavaScript</li>
-            <li>Git & GitHub</li>
-            <li>CI/CD Workflows</li>
-        </ul>
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Feel free to reach out:</p>
-        <p>Email: <a href="mailto:contact@allensandiego.com">contact@allensandiego.com</a></p>
-        <p>GitHub: <a href="https://github.com/allensandiego" target="_blank">allensandiego</a></p>
-        <!-- <p>LinkedIn: <a href="#" target="_blank">Your LinkedIn</a></p> -->
-    </section>
-
-    <footer>
-        <p>© 2026 Allen Sandiego. Built with 💻 and ☕</p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-
-</html>
+<section id="contact">
+    <h2>Contact</h2>
+    <p>Feel free to reach out:</p>
+    <p>Email: <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+    <p>GitHub: <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">{{ site.github_username }}</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/allensandiego/" target="_blank" rel="noopener noreferrer">Allen Sandiego</a></p>
+</section>

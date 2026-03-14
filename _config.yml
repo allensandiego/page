@@ -1,1 +1,28 @@
+title: Allen Sandiego
+email: contact@allensandiego.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Seasoned Technology Professional specializing in the Oracle ecosystem, 
+  with deep functional and technical expertise across key enterprise platforms.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://www.allensandiego.com" # the base hostname & protocol for your site
+twitter_username: allensandiego
+github_username:  allensandiego
+
+# Build settings
 theme: jekyll-theme-hacker
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be terminated from the entire processing procedure.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
