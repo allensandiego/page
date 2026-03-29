@@ -1,28 +1,127 @@
+# Import the theme
+theme: jekyll-theme-chirpy
+
+lang: en
+
+timezone: Asia/Manila
+
 title: Allen Sandiego
-email: contact@allensandiego.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Seasoned Technology Professional specializing in the Oracle ecosystem, 
+
+tagline: Software Developer • Engineer • Problem Solver
+
+description: >-
+  Seasoned Technology Professional specializing in the Oracle ecosystem,
   with deep functional and technical expertise across key enterprise platforms.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://www.allensandiego.com" # the base hostname & protocol for your site
-twitter_username: allensandiego
-github_username:  allensandiego
 
-# Build settings
-theme: jekyll-theme-hacker
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
+url: "https://www.allensandiego.com"
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be terminated from the entire processing procedure.
+github:
+  username: allensandiego
+
+twitter:
+  username: allensandiego
+
+social:
+  name: Allen Sandiego
+  email: contact@allensandiego.com
+  links:
+    - https://twitter.com/allensandiego
+    - https://github.com/allensandiego
+    - https://www.linkedin.com/in/allensandiego/
+
+webmaster_verifications:
+  facebook: vng1rahcsd8i30bx1z2il53s0i1wp9
+
+# Web Analytics Settings
+analytics:
+  google:
+    id: G-1PEDJLM5JE
+
+# avatar on sidebar
+avatar: /assets/img/favicons/apple-touch-icon.png
+
+toc: true
+
+comments:
+  provider: # [disqus | utterances | giscus]
+
+pwa:
+  enabled: true
+  cache:
+    enabled: true
+
+paginate: 10
+
+baseurl: ""
+
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _drafts
+    values:
+      comments: false
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
 exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - purgecss.js
+  - "*.config.js"
+  - "package*.json"
   - Gemfile
   - Gemfile.lock
   - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
+  - vendor/
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
