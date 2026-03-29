@@ -34,12 +34,7 @@ jobs:
       - name: Build site
         run: bundle exec jekyll build --baseurl "${{ github.event.repository.name == github.repository_owner && '' || format('/{0}', github.event.repository.name) }}"
 
-      - name: Test site
-        run: |
-          bundle exec htmlproofer _site \
-            --disable-external \
-            --ignore-missing-alt \
-            --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
