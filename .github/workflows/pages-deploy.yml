@@ -32,7 +32,7 @@ jobs:
           bundler-cache: true
 
       - name: Build site
-        run: bundle exec jekyll build --baseurl "${{ github.event.repository.name == github.repository_owner && '' || format('/{0}', github.event.repository.name) }}"
+        run: bundle exec jekyll build --baseurl ""
 
 
 
