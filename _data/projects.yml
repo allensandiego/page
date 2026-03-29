@@ -17,10 +17,15 @@
   link: https://vrooomed.allensandiego.com
   internal_link: ./vrooomed
 
-- title: Azure DevOps extension for Visual Studio Code
+- title: Flux, a Visual Studio Code extension for Azure DevOps
   subtitle: Developer Tools
   description: A simple Visual Studio Code extension that helps you manage your Work Items more easily.
   link: https://marketplace.visualstudio.com/items?itemName=allensandiego.as-azure-devops
+
+- title: Flux for Azure DevOps
+  subtitle: Android
+  description: A mobile client for Azure DevOps that allows you to manage your Work Items, Sprints, and Boards directly from your Android device with offline support.
+  link: https://play.google.com/store/apps/details?id=com.allensandiego.flux
 
 - title: Peek for Shinobi Video
   subtitle: Android
