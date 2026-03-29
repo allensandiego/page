@@ -5,7 +5,7 @@ date: 2018-12-11 06:55:00 +0000
 categories: ["Programming"]
 ---
 
-In this post, I will create a custom interface using Application Module Service as opposed to the Java Bean Service in my previous post <a href="/2018/12/custom-interface-java-bean-service-oracle-ebs-soa-gateway.html?m=1" target="_blank">here</a>.
+In this post, I will create a custom interface using Application Module Service as opposed to the Java Bean Service in my previous post <a href="/posts/custom-interface-java-bean-service-to-return-hello-world-using-oracle-e-business-suite-integrated-soa-gateway/" target="_blank">here</a>.
 <br />
 <br />
 Using Application Module Service, we can take advantage of Oracle Application Framework (OAF) components like View Object (VO), Entity Object (EO) etc.
