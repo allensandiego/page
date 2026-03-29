@@ -1,0 +1,94 @@
+---
+---
+
+/* ===================================
+   Project Cards
+   =================================== */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 1rem;
+}
+
+.project-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.project-card-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.project-card-title a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.project-card-title a:hover {
+  text-decoration: underline;
+}
+
+.project-card-subtitle {
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: var(--text-muted-color);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===================================
+   Skills List
+   =================================== */
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+}
+
+.skills-list li {
+  background: var(--tag-bg);
+  color: var(--tag-color, inherit);
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* ===================================
+   Button
+   =================================== */
+
+.btn-portfolio {
+  display: inline-block;
+  padding: 10px 22px;
+  background: var(--link-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.btn-portfolio:hover {
+  opacity: 0.85;
+  color: #fff;
+  text-decoration: none;
+}
