@@ -26,21 +26,31 @@
   subtitle: Android
   description: A mobile client for Azure DevOps that allows you to manage your Work Items, Sprints, and Boards directly from your Android device with offline support.
   link: https://play.google.com/store/apps/details?id=com.allensandiego.flux
+  internal_link: ./flux
 
 - title: Peek for Shinobi Video
   subtitle: Android
   description: Peek is an android client application for your Shinobi Video server.
   link: https://play.google.com/store/apps/details?id=com.allensandiego.peek
+  internal_link: ./peek
 
 - title: Movie TV Person
   subtitle: Android
   description: Movie TV Person is an android client application for TMDb.
   link: https://play.google.com/store/apps/details?id=com.allensandiego.movieportal
+  internal_link: ./movietvperson
 
 - title: Quiz Time
   subtitle: Android
   description: Quiz Time is an android trivia game.
   link: https://play.google.com/store/apps/details?id=com.allensandiego.quiztime
+  internal_link: ./quiztime
+
+- title: Operate for TrueNAS
+  subtitle: Android
+  description: A powerful and intuitive TrueNAS management client for your Android device.
+  link: #
+  internal_link: ./operate
 
 - title: Home Assistant Integration for Shinobi
   subtitle: Integration
