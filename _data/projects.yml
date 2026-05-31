@@ -52,6 +52,12 @@
   link: #
   internal_link: ./operate
 
+- title: Notepad
+  subtitle: Android
+  description: A privacy-first, offline-ready Android application that empowers users to build custom relational tables, manage records locally using SQLite/Room, and seamlessly sync data in real-time to their own Supabase or self-hosted PostgreSQL database.
+  link: #
+  internal_link: ./notepad
+
 - title: Home Assistant Integration for Shinobi
   subtitle: Integration
   description: This is a custom integration of the NVR Shinobi.Video for Home Assistant through HACS.
