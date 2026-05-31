@@ -1,0 +1,61 @@
+---
+layout: page
+title: Notepad - Dynamic Relational Data Manager
+---
+
+<section id="hero">
+    <h2>Notepad</h2>
+    <p>A privacy-first, offline-ready dynamic relational data manager for Android.</p>
+    <div class="hero-actions">
+        <a href="#" class="btn" target="_blank" rel="noopener noreferrer">Download App</a>
+    </div>
+</section>
+
+<section id="about">
+    <h2>About Notepad</h2>
+    <p>Notepad is a privacy-first, offline-ready Android application that empowers users to build custom relational tables, manage records locally using SQLite/Room, and seamlessly sync data in real-time to their own Supabase or self-hosted PostgreSQL database.</p>
+</section>
+
+<section id="features">
+    <h2>Key Features</h2>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-card-title">Dynamic Schema Designer</div>
+            <p>Define custom collections and manage fields of various types (TEXT, NUMBER, BOOLEAN, DATE, FILE). Supports defaults like static values, current date, UUIDs, and auto-increment keys.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-card-title">One-to-Many Relationships</div>
+            <p>Define child collections recursively (e.g., Patients → Visits → Prescriptions) and edit records recursively inside dialog navigation stacks.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-card-title">Offline-Ready Sync</div>
+            <p>Perform all reads/writes locally using transactional Room SQLite. Queue and sync changes to Supabase's PostgREST API when online.</p>
+        </div>
+        <div class="project-card">
+            <div class="project-card-title">File Attachments</div>
+            <p>Attach images, PDFs, and documents to records. Files are cached locally and synced securely to your own Supabase Storage.</p>
+        </div>
+    </div>
+
+    <h3>Security & Privacy</h3>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-card-title">Privacy-First</div>
+            <p>Read our <a href="./privacy.html">Privacy Policy</a> and <a href="./terms.html">Terms of Service</a>. Also
+                accessible directly within the app.</p>
+        </div>
+    </div>
+</section>
+
+<section id="tech-stack">
+    <h2>Tech Stack</h2>
+    <ul class="skills-list">
+        <li>Android SDK</li>
+        <li>Kotlin</li>
+        <li>Jetpack Compose</li>
+        <li>Room Database (SQLite)</li>
+        <li>Ktor HTTP Client (OkHttp)</li>
+        <li>PostgreSQL JDBC</li>
+        <li>Bugsnag Diagnostics & Telemetry</li>
+    </ul>
+</section>
