@@ -58,6 +58,12 @@
   link: #
   internal_link: ./notepad
 
+- title: Chained
+  subtitle: Android
+  description: A native Android word connection puzzle game built with Kotlin and Jetpack Compose. Players connect adjacent letter tiles on an 8x10 grid to form valid English words, scoring points, leveling up, and managing fire tiles before they burn down the library.
+  link: #
+  internal_link: ./chained
+
 - title: Home Assistant Integration for Shinobi
   subtitle: Integration
   description: This is a custom integration of the NVR Shinobi.Video for Home Assistant through HACS.
