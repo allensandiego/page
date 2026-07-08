@@ -5,10 +5,7 @@ icon: fas fa-user
 order: 1
 ---
 
-Seasoned Technology Professional specializing in the Oracle ecosystem, with deep functional and technical
-expertise across key enterprise platforms. My professional focus lies specifically in the implementation,
-development, and support of Oracle E-Business Suite R12, Oracle Fusion HCM, Oracle Taleo Enterprise, and
-Oracle Application Express (APEX). I excel at designing and developing robust, scalable Oracle solutions.
+Seasoned Technology Professional specializing in the Oracle ecosystem, with nearly two decades of deep-rooted experience in SQL, Oracle PL/SQL, and Oracle Database, alongside functional and technical expertise across key enterprise platforms. My professional focus lies specifically in the implementation, development, and support of Oracle E-Business Suite R12, Oracle Fusion HCM, Oracle Taleo Enterprise, and Oracle Application Express (APEX). I excel at designing and developing robust, scalable Oracle solutions.
 
 A core strength of my profile lies in enterprise application integration. In addition to extensive experience connecting systems using industry-standard SOAP and REST APIs, my recent work includes architecting modern, event-driven pipelines. I have successfully integrated Oracle E-Business Suite with Azure Service Bus and Dapr, distributing events to containerized microservices (Azure Container Apps) acting as subscribers. These subscribers trigger Temporal workflows, utilizing Temporal activities to reliably orchestrate REST API calls to target systems. 
 
