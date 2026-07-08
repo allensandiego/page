@@ -8,6 +8,12 @@
     - Oracle Fusion HCM
     - Taleo Enterprise
 
+- category: Modern Integrations & Cloud
+  items:
+    - Azure Service Bus & Dapr
+    - Temporal Workflows
+    - Azure Container Apps
+
 - category: Full-Stack Toolset
   items:
     - Bash Scripting
@@ -16,4 +22,13 @@
     - TypeScript
     - HTML & JavaScript
     - Git & GitHub
-    - CI/CD Workflows
+    - CI/CD (GitHub Actions)
+    - Flyway Database Migrations
+    - Supabase & Neon
+
+- category: Automation & Monitoring
+  items:
+    - AI-Assisted Programming
+    - Self-Hosted Agentic Workflows (OpenClaw)
+    - Proxmox VE
+    - Bugsnag & Firebase Crashlytics
