@@ -15,7 +15,7 @@ Beyond my Oracle specializations, I maintain a versatile full-stack skill set, w
 
 ### Personal Projects & CI/CD
 
-On the personal and indie development front, I design, deploy, and maintain several apps. I build robust CI/CD pipelines using GitHub Actions to automate deployments across platforms, including:
+On the personal and indie development front, I design, deploy, and maintain several apps, frequently integrating Gemini AI to power intelligent features—such as the carb counter and automated glucose extraction from glucometer photos in **Gluconitor**, and smart logging in **Vrooomed**. I build robust CI/CD pipelines using GitHub Actions to automate deployments across platforms, including:
 - Deploying mobile apps to the Google Play Store.
 - Hosting web apps and serverless features on Firebase.
 - Deploying backend services and APIs to Render.
