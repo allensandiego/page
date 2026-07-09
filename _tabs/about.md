@@ -9,7 +9,7 @@ Seasoned Technology Professional specializing in the Oracle ecosystem, with near
 
 A core strength of my profile lies in enterprise application integration. In addition to extensive experience connecting systems using industry-standard SOAP and REST APIs, my recent work includes architecting modern, event-driven pipelines. I have successfully integrated Oracle E-Business Suite with Azure Service Bus and Dapr, distributing events to containerized microservices (Azure Container Apps) acting as subscribers. These subscribers trigger Temporal workflows, utilizing Temporal activities to reliably orchestrate REST API calls to target systems. 
 
-Furthermore, I actively leverage AI-assisted development and pair programming to streamline coding, accelerate troubleshooting, and adopt emerging technologies efficiently.
+Furthermore, I actively leverage AI-assisted development and pair programming to streamline coding, accelerate troubleshooting, and adopt emerging technologies efficiently. My development workflow is supported by modern IDEs including **VS Code**, **Antigravity**, and **Android Studio**, alongside productivity-focused command-line interfaces such as the **Antigravity CLI**, **Copilot CLI**, and **OpenCode / OpenClaw CLI**.
 
 Beyond my Oracle specializations, I maintain a versatile full-stack skill set, with practical experience in automation via Bash scripting and development capabilities using modern languages such as Java, Python, and TypeScript, alongside native Android development.
 

@@ -32,3 +32,8 @@
     - Self-Hosted Agentic Workflows (OpenClaw)
     - Proxmox VE
     - Bugsnag & Firebase Crashlytics
+
+- category: Developer Tooling & IDEs
+  items:
+    - VS Code, Antigravity, & Android Studio
+    - Antigravity CLI, Copilot CLI, & OpenCode / OpenClaw CLI
