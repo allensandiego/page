@@ -25,36 +25,21 @@ panel: false
     <h2 class="section-title">Featured Projects</h2>
     <p class="section-subtitle">A curated selection of web applications, mobile apps, and tools I have designed and built.</p>
   </div>
-  <div class="projects-grid-custom">
+  <div class="project-grid">
     {% assign featured_titles = "Talent,Gluconitor,Vrooomed,Chained,Notepad,Flux for Azure DevOps" | split: "," %}
     {% for project in site.data.projects %}
       {% if featured_titles contains project.title or featured_titles contains project.subtitle %}
-        <div class="project-card-custom" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
-          <div class="project-card-icon">
-            {% if project.title contains "Talent" %}
-              <i class="fas fa-users-cog"></i>
-            {% elif project.title contains "Gluconitor" %}
-              <i class="fas fa-heartbeat"></i>
-            {% elif project.title contains "Vrooomed" %}
-              <i class="fas fa-car-side"></i>
-            {% elif project.title contains "Notepad" %}
-              <i class="fas fa-book-open"></i>
-            {% elif project.title contains "Chained" %}
-              <i class="fas fa-puzzle-piece"></i>
-            {% else %}
-              <i class="fas fa-cubes"></i>
-            {% endif %}
-          </div>
-          <h3 class="project-card-title-custom">
+        <div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
+          <div class="project-card-title">
             {% if project.internal_link %}
-              <a href="{{ project.internal_link | relative_url }}" class="project-title-link">{{ project.title }}</a>
+              <a href="{{ project.internal_link | relative_url }}">{{ project.title }}</a>
             {% else %}
               {{ project.title }}
             {% endif %}
-          </h3>
-          <span class="project-card-tag">{{ project.subtitle }}</span>
-          <p class="project-card-desc">{{ project.description }}</p>
-          <div class="project-card-footer">
+          </div>
+          <div class="project-card-subtitle">{{ project.subtitle }}</div>
+          <p>{{ project.description }}</p>
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-light-subtle">
             {% if project.status %}
               <span class="project-status-badge">{{ project.status }}</span>
             {% endif %}
@@ -67,34 +52,34 @@ panel: false
     {% endfor %}
   </div>
   <div class="section-footer">
-    <a href="{{ '/projects/' | relative_url }}" class="btn btn-outline-custom">Explore All Projects <i class="fas fa-arrow-right"></i></a>
+    <a href="{{ '/projects/' | relative_url }}" class="btn-outline-custom">Explore All Projects <i class="fas fa-arrow-right"></i></a>
   </div>
 </section>
 
 <!-- Core Expertise / Skills Section -->
-<section class="home-section bg-alt">
+<section class="home-section">
   <div class="section-header">
     <h2 class="section-title">Core Expertise</h2>
     <p class="section-subtitle">Key domains and technologies I specialize in across enterprise and modern development.</p>
   </div>
-  <div class="skills-grid-custom">
+  <div class="skills-section-custom">
     {% for category in site.data.skills %}
-      <div class="skill-category-card">
-        <h3 class="skill-category-title">
+      <div class="skill-category-block">
+        <h3 class="skill-category-title-custom">
           {% if category.category contains "Oracle" %}
-            <i class="fas fa-database text-primary"></i>
+            <i class="fas fa-database text-primary me-2"></i>
           {% elif category.category contains "Integrations" %}
-            <i class="fas fa-cloud text-success"></i>
+            <i class="fas fa-cloud text-success me-2"></i>
           {% elif category.category contains "Full-Stack" %}
-            <i class="fas fa-laptop-code text-warning"></i>
+            <i class="fas fa-laptop-code text-warning me-2"></i>
           {% elif category.category contains "Automation" %}
-            <i class="fas fa-robot text-danger"></i>
+            <i class="fas fa-robot text-danger me-2"></i>
           {% else %}
-            <i class="fas fa-tools text-info"></i>
+            <i class="fas fa-tools text-info me-2"></i>
           {% endif %}
           {{ category.category }}
         </h3>
-        <ul class="skill-tags-list">
+        <ul class="skills-list">
           {% for item in category.items %}
             <li>{{ item }}</li>
           {% endfor %}
@@ -112,20 +97,41 @@ panel: false
     <h2 class="section-title">Recent Writings</h2>
     <p class="section-subtitle">Articles, guides, and thoughts on software engineering and system integration.</p>
   </div>
-  <div class="recent-posts-list">
+  <div id="post-list" class="flex-grow-1 px-xl-1">
     {% for post in recent_posts %}
-      <article class="recent-post-card">
-        <div class="recent-post-meta">
-          <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.date | date: "%B %d, %Y" }}</span>
-        </div>
-        <h3 class="recent-post-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        <p class="recent-post-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-        <a href="{{ post.url | relative_url }}" class="read-more-link">Read Article <i class="fas fa-chevron-right"></i></a>
+      <article class="card-wrapper card">
+        <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
+          {% if post.image %}
+            <div class="col-md-5">
+              <img src="{{ post.image.path | relative_url }}" alt="{{ post.image.alt }}" class="post-image">
+            </div>
+          {% endif %}
+          <div class="col-md-{% if post.image %}7{% else %}12{% endif %} px-md-3">
+            <div class="card-body d-flex flex-column justify-content-between h-100">
+              <h1 class="card-title my-2 my-md-0">{{ post.title }}</h1>
+              <div class="card-text">
+                <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
+              </div>
+              <div class="post-meta d-flex flex-wrap align-items-center text-muted">
+                <div class="me-3">
+                  <i class="far fa-calendar fa-fw"></i>
+                  {% include datetime.html date=post.date lang=lang %}
+                </div>
+                {% if post.categories.size > 0 %}
+                  <div>
+                    <i class="far fa-folder-open fa-fw"></i>
+                    <span>{{ post.categories | join: ', ' }}</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </a>
       </article>
     {% endfor %}
   </div>
   <div class="section-footer">
-    <a href="{{ '/categories/' | relative_url }}" class="btn btn-outline-custom">Browse Categories <i class="fas fa-folder-open"></i></a>
+    <a href="{{ '/categories/' | relative_url }}" class="btn-outline-custom">Browse Categories <i class="fas fa-folder-open"></i></a>
   </div>
 </section>
 {% endif %}
