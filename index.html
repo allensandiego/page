@@ -25,27 +25,29 @@ panel: false
   <div class="project-grid">
     {% assign featured_titles = "Talent,Gluconitor,Vrooomed,Chained,Notepad,Flux for Azure DevOps" | split: "," %}
     {% for project in site.data.projects %}
-      {% if featured_titles contains project.title or featured_titles contains project.subtitle %}
-        <div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
-          <div class="project-card-title">
-            {% if project.internal_link %}
-              <a href="{{ project.internal_link | relative_url }}">{{ project.title }}</a>
-            {% else %}
-              {{ project.title }}
-            {% endif %}
+      {% unless project.hidden %}
+        {% if featured_titles contains project.title or featured_titles contains project.subtitle %}
+          <div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
+            <div class="project-card-title">
+              {% if project.internal_link %}
+                <a href="{{ project.internal_link | relative_url }}">{{ project.title }}</a>
+              {% else %}
+                {{ project.title }}
+              {% endif %}
+            </div>
+            <div class="project-card-subtitle">{{ project.subtitle }}</div>
+            <p>{{ project.description }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-light-subtle">
+              {% if project.status %}
+                <span class="project-status-badge">{{ project.status }}</span>
+              {% endif %}
+              {% if project.link and project.link != "#" %}
+                <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="project-ext-link">Launch <i class="fas fa-external-link-alt"></i></a>
+              {% endif %}
+            </div>
           </div>
-          <div class="project-card-subtitle">{{ project.subtitle }}</div>
-          <p>{{ project.description }}</p>
-          <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-light-subtle">
-            {% if project.status %}
-              <span class="project-status-badge">{{ project.status }}</span>
-            {% endif %}
-            {% if project.link and project.link != "#" %}
-              <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="project-ext-link">Launch <i class="fas fa-external-link-alt"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
+        {% endif %}
+      {% endunless %}
     {% endfor %}
   </div>
   <div class="section-footer">
