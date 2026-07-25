@@ -7,6 +7,7 @@ order: 2
 
 <div class="project-grid">
 {% for project in site.data.projects %}
+{% unless project.hidden %}
 <div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
   <div class="project-card-title">
     {% if project.internal_link %}
@@ -22,5 +23,6 @@ order: 2
   {% endif %}
   <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer">View here →</a>
 </div>
+{% endunless %}
 {% endfor %}
 </div>

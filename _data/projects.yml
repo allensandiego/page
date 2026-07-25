@@ -57,6 +57,7 @@
   description: A privacy-first, offline-ready Android application that empowers users to build custom relational tables, manage records locally using SQLite/Room, and seamlessly sync data in real-time to their own Supabase or self-hosted PostgreSQL database.
   link: #
   internal_link: ./notepad
+  hidden: true
 
 - title: Chained
   subtitle: Android
