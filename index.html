@@ -23,7 +23,7 @@ panel: false
     <p class="section-subtitle">A curated selection of web applications, mobile apps, and tools I have designed and built.</p>
   </div>
   <div class="project-grid">
-    {% assign featured_titles = "AENSOFT HCM Platform,Gluconitor,Vrooomed,Chained,Notepad,Flux for Azure DevOps" | split: "," %}
+    {% assign featured_titles = "Talent,Gluconitor,Vrooomed,Chained,Notepad,Flux for Azure DevOps" | split: "," %}
     {% for project in site.data.projects %}
       {% unless project.hidden %}
         {% if featured_titles contains project.title or featured_titles contains project.subtitle %}

@@ -1,7 +1,7 @@
-- title: AENSOFT HCM Platform
-  subtitle: Multi-Tenant Enterprise SaaS (Java 21 / Spring Boot 4)
+- title: Talent
+  subtitle: Multi-Tenant Enterprise HCM Suite (Java 21 / Spring Boot 4)
   description: Multi-tenant SaaS HR & Talent platform featuring three integrated portals (Genesis Operator, Talent Workforce & ATS, and Career Candidate Portal) with PostgreSQL Row-Level Security (RLS) and Playwright Java E2E testing.
-  status: Live Production
+  status: Live Demo
   link: https://talent-97f5.onrender.com/
   internal_link: ./hcm
 
