@@ -14,17 +14,17 @@
     - Temporal Workflows
     - Azure Container Apps
 
-- category: Full-Stack Toolset
+- category: Full-Stack & Backend Engineering
   items:
-    - Bash Scripting
-    - Python
-    - Java
-    - TypeScript
-    - HTML & JavaScript
-    - Git & GitHub
-    - CI/CD (GitHub Actions)
+    - Java 21 (LTS) & Spring Boot 4
+    - Spring Security & OAuth2 / OIDC
+    - PostgreSQL & Row-Level Security (RLS)
+    - Python & TypeScript
+    - Playwright Java E2E Automation
     - Flyway Database Migrations
-    - Supabase & Neon
+    - Neon Serverless & Supabase
+    - HTML, CSS, JavaScript, & CoreUI
+    - Bash Scripting & CI/CD (GitHub Actions)
 
 - category: Automation & Monitoring
   items:
