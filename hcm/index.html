@@ -3,232 +3,157 @@ layout: page
 title: Talent — Multi-Tenant Enterprise HCM Platform
 ---
 
-<section id="hero" class="mb-5">
-    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary border">
-        <h1 class="display-5 fw-bold">Talent Platform</h1>
-        <p class="lead my-3">
-            A modern, multi-tenant enterprise Human Capital Management & Talent Acquisition SaaS platform for the Philippine and global enterprise markets. Built with <strong>Java 21 (LTS)</strong>, <strong>Spring Boot 4.1.0</strong>, and <strong>PostgreSQL Row-Level Security (RLS)</strong>.
-        </p>
-        <div class="d-flex flex-wrap gap-2 mt-4">
-            <a href="https://talent-97f5.onrender.com/" class="btn btn-primary px-4 py-2" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-external-link-alt me-2"></i>Launch Talent Marketing Page
-            </a>
-            <a href="#demo-access" class="btn btn-outline-secondary px-4 py-2">
-                <i class="fas fa-key me-2"></i>View Live Demos & Test Accounts
-            </a>
-        </div>
-    </div>
-</section>
-
-<section id="portals" class="mb-5">
-    <h2 class="border-bottom pb-2 mb-4">Integrated Platform Applications</h2>
-    <p class="text-body-secondary">
-        The HCM platform consists of three independently deployable, modular web applications built within a unified Spring Boot monorepo:
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title"><span class="highlight">Talent Platform</span></h1>
+    <p class="hero-subtitle">Multi-Tenant Enterprise SaaS • Java 21 (LTS) • Spring Boot 4.1.0 • PostgreSQL RLS</p>
+    <p class="hero-description">
+      A modern, cloud-native Human Capital Management and Talent Acquisition platform for enterprise workforce operations. Designed with database-enforced multi-tenancy, dynamic permission catalogs, and automated Playwright Java E2E test suites.
     </p>
-
-    <div class="row g-4 my-2">
-        <!-- Genesis Card -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border p-3">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="fs-2 me-2">⚙️</span>
-                        <div>
-                            <h4 class="card-title mb-0 fw-bold">Genesis</h4>
-                            <small class="text-primary fw-semibold">SaaS Operator Portal</small>
-                        </div>
-                    </div>
-                    <p class="card-text text-body-secondary flex-grow-1">
-                        Authoritative source of tenant accounts, subscription plans, feature toggles, and dynamic permission catalogs. Used by SaaS operators to provision and monitor tenants.
-                    </p>
-                    <div class="mt-3 pt-3 border-top">
-                        <a href="https://genesis-o00r.onrender.com/login" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary w-100">
-                            Launch Genesis <i class="fas fa-external-link-alt ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Talent Card -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border p-3">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="fs-2 me-2">🏢</span>
-                        <div>
-                            <h4 class="card-title mb-0 fw-bold">Talent</h4>
-                            <small class="text-success fw-semibold">Workforce & ATS Portal</small>
-                        </div>
-                    </div>
-                    <p class="card-text text-body-secondary flex-grow-1">
-                        Comprehensive recruiter & HR workspace featuring organizational hierarchies, job requisitions, interactive candidate Kanban pipelines, offer management, and RLS data isolation.
-                    </p>
-                    <div class="mt-3 pt-3 border-top">
-                        <a href="https://talent-97f5.onrender.com/aensoft/login" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success w-100 text-white">
-                            Launch Talent Portal <i class="fas fa-external-link-alt ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Career Card -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border p-3">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="fs-2 me-2">💼</span>
-                        <div>
-                            <h4 class="card-title mb-0 fw-bold">Career</h4>
-                            <small class="text-info fw-semibold">Candidate Portal</small>
-                        </div>
-                    </div>
-                    <p class="card-text text-body-secondary flex-grow-1">
-                        Public job board discovery, full-text position search, candidate accounts, and job application submission engine with immutable candidate profile snapshots.
-                    </p>
-                    <div class="mt-3 pt-3 border-top">
-                        <a href="https://career-0rwi.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info w-100">
-                            Launch Career Portal <i class="fas fa-external-link-alt ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="hero-cta">
+      <a href="https://talent-97f5.onrender.com/" class="btn-primary-custom" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-external-link-alt me-1"></i> Launch Talent Marketing Page
+      </a>
+      <a href="#live-demo-access" class="btn-secondary-custom">
+        <i class="fas fa-key me-1"></i> Live Demos & Test Accounts
+      </a>
     </div>
+  </div>
 </section>
 
-<!-- Demo Access & Test Accounts -->
-<section id="demo-access" class="mb-5 p-4 rounded border bg-body-tertiary">
-    <div class="d-flex align-items-center mb-3">
-        <span class="fs-3 me-2">🔑</span>
-        <h2 class="mb-0 fw-bold">Live Demo Credentials & Quick Access</h2>
-    </div>
-    <p class="text-body-secondary">
-        You are welcome to test each application directly. Use the pre-seeded credentials below to evaluate the different operator, recruiter, and candidate roles:
-    </p>
-
-    <div class="table-responsive mt-3">
-        <table class="table table-bordered table-hover align-middle bg-body">
-            <thead class="table-light">
-                <tr>
-                    <th>Portal / Target</th>
-                    <th>Role / Persona</th>
-                    <th>Login URL</th>
-                    <th>Email / Username</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Genesis Portal</strong></td>
-                    <td><span class="badge bg-primary">SaaS Super Admin</span></td>
-                    <td><a href="https://genesis-o00r.onrender.com/login" target="_blank" rel="noopener noreferrer">genesis-o00r.onrender.com/login</a></td>
-                    <td><code>admin@aensoft.com</code></td>
-                    <td><code>password</code></td>
-                </tr>
-                <tr>
-                    <td><strong>Talent Portal</strong> (Tenant: Aensoft)</td>
-                    <td><span class="badge bg-success">HR Admin / Recruiter</span></td>
-                    <td><a href="https://talent-97f5.onrender.com/aensoft/login" target="_blank" rel="noopener noreferrer">talent-97f5.onrender.com/aensoft/login</a></td>
-                    <td><code>admin@aensoft.com</code></td>
-                    <td><code>password</code></td>
-                </tr>
-                <tr>
-                    <td><strong>Talent Portal</strong> (Tenant: Acme)</td>
-                    <td><span class="badge bg-secondary">Multi-Tenant Isolation Test</span></td>
-                    <td><a href="https://talent-97f5.onrender.com/acme/login" target="_blank" rel="noopener noreferrer">talent-97f5.onrender.com/acme/login</a></td>
-                    <td><code>admin@acme.com</code></td>
-                    <td><code>password</code></td>
-                </tr>
-                <tr>
-                    <td><strong>Career Portal</strong></td>
-                    <td><span class="badge bg-info text-dark">Candidate / Job Seeker</span></td>
-                    <td><a href="https://career-0rwi.onrender.com/login" target="_blank" rel="noopener noreferrer">career-0rwi.onrender.com/login</a></td>
-                    <td><code>candidate@example.com</code></td>
-                    <td><code>password</code> <em>(or register a new account)</em></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<section id="about" class="mt-4">
+  <h2>About the Platform</h2>
+  <p>
+    Talent is an enterprise multi-tenant SaaS platform composed of three independently deployable, modular Spring Boot web applications managed within a unified Maven monorepo. It solves end-to-end human capital workflows from SaaS tenant onboarding to candidate hiring.
+  </p>
 </section>
 
-<!-- Architectural Highlights -->
-<section id="architecture" class="mb-5">
-    <h2 class="border-bottom pb-2 mb-4">Key Architecture & Engineering Highlights</h2>
-
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card h-100 p-3 border shadow-sm">
-                <h5 class="fw-bold mb-2">🛡️ Database-Enforced Multi-Tenancy (PostgreSQL RLS)</h5>
-                <p class="text-body-secondary small mb-0">
-                    Tenant isolation is enforced directly at the database engine level via PostgreSQL <strong>Row-Level Security (RLS)</strong> using <code>SET LOCAL app.current_tenant_id = '...'</code> on transactions, guaranteeing zero cross-tenant data leaks even in shared multi-tenant tables.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 p-3 border shadow-sm">
-                <h5 class="fw-bold mb-2">⚡ Path-Based Strict Routing (<code>/{slug}/...</code>)</h5>
-                <p class="text-body-secondary small mb-0">
-                    Eliminates domain/subdomain DNS fragility by scoping all tenant requests cleanly through path-based routing (e.g. <code>/aensoft/dashboard</code>, <code>/acme/hr/positions</code>). Seamlessly resolves tenant contexts with zero proxy configuration overhead.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 p-3 border shadow-sm">
-                <h5 class="fw-bold mb-2">🔐 Dynamic Permission-Based Access Control (PBAC)</h5>
-                <p class="text-body-secondary small mb-0">
-                    Fully decoupled from hardcoded roles. Routes are dynamically evaluated against a centralized permission catalog (HTTP method + resource path matching), allowing tenant administrators to create unlimited bespoke roles.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 p-3 border shadow-sm">
-                <h5 class="fw-bold mb-2">🚀 Serverless Connection Efficiency & Scale-to-Zero</h5>
-                <p class="text-body-secondary small mb-0">
-                    Optimized for serverless cloud databases (Neon Serverless PostgreSQL) with tuned HikariCP connection lifecycles, lazy initialization timeouts, and idle connection releasing to enable cost-effective autoscaling.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 p-3 border shadow-sm">
-                <h5 class="fw-bold mb-2">🧪 Automated Playwright Java E2E Test Suite</h5>
-                <p class="text-body-secondary small mb-0">
-                    End-to-end integration tests written with <strong>Microsoft Playwright for Java</strong> and JUnit 5, testing complete cross-portal lifecycles from tenant onboarding to candidate hiring with automated full-page screenshot and video evidence generation.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 p-3 border shadow-sm">
-                <h5 class="fw-bold mb-2">🔄 Schema Migrations via Standalone Flyway Module</h5>
-                <p class="text-body-secondary small mb-0">
-                    Centralized database version control with explicit Maven profile execution (<code>-P genesis</code>, <code>-P talent</code>, <code>-P career</code>) and centralized schema histories within a dedicated <code>flyway</code> schema.
-                </p>
-            </div>
-        </div>
+<section id="portals" class="mt-4">
+  <h2>Integrated Platform Applications</h2>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">⚙️</span> Genesis Platform
+      </div>
+      <div class="project-card-subtitle">SaaS Operator Portal</div>
+      <p>
+        The authoritative source of tenant accounts, subscription plans, feature gates, and dynamic permissions. Used by SaaS operators to provision and monitor tenants.
+      </p>
+      <div class="mt-3 pt-2 border-top border-light-subtle">
+        <a href="https://genesis-o00r.onrender.com/login" target="_blank" rel="noopener noreferrer" class="btn-portfolio">
+          Launch Genesis <i class="fas fa-external-link-alt ms-1"></i>
+        </a>
+      </div>
     </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">🏢</span> Talent Platform
+      </div>
+      <div class="project-card-subtitle">Workforce & ATS Portal</div>
+      <p>
+        Full-lifecycle recruiter and HR workspace featuring organizational hierarchies, job requisitions, interactive candidate Kanban pipelines, offer management, and RLS data isolation.
+      </p>
+      <div class="mt-3 pt-2 border-top border-light-subtle">
+        <a href="https://talent-97f5.onrender.com/aensoft/login" target="_blank" rel="noopener noreferrer" class="btn-portfolio">
+          Launch Talent <i class="fas fa-external-link-alt ms-1"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">💼</span> Career Portal
+      </div>
+      <div class="project-card-subtitle">Candidate Portal</div>
+      <p>
+        Public job board discovery, position search, candidate profiles, and an application submission engine that generates immutable work and education profile snapshots.
+      </p>
+      <div class="mt-3 pt-2 border-top border-light-subtle">
+        <a href="https://career-0rwi.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-portfolio">
+          Launch Career <i class="fas fa-external-link-alt ms-1"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Technology Stack Badges -->
-<section id="tech-stack" class="mb-4">
-    <h3 class="fw-bold mb-3">Technology Stack</h3>
-    <div class="d-flex flex-wrap gap-2">
-        <span class="badge bg-dark fs-6 py-2 px-3">Java 21 (LTS)</span>
-        <span class="badge bg-success fs-6 py-2 px-3">Spring Boot 4.1.0</span>
-        <span class="badge bg-primary fs-6 py-2 px-3">Spring Security & OAuth2/OIDC</span>
-        <span class="badge bg-info text-dark fs-6 py-2 px-3">Spring Data JPA / Hibernate 6</span>
-        <span class="badge bg-secondary fs-6 py-2 px-3">PostgreSQL 18 & RLS</span>
-        <span class="badge bg-dark fs-6 py-2 px-3">Neon Serverless DB</span>
-        <span class="badge bg-danger fs-6 py-2 px-3">Flyway Database Migrations</span>
-        <span class="badge bg-warning text-dark fs-6 py-2 px-3">Playwright Java E2E</span>
-        <span class="badge bg-light text-dark border fs-6 py-2 px-3">Thymeleaf & Layout Dialect</span>
-        <span class="badge bg-primary fs-6 py-2 px-3">CoreUI Bootstrap 5.6.1</span>
-        <span class="badge bg-dark fs-6 py-2 px-3">GitHub Actions CI/CD</span>
-        <span class="badge bg-info text-dark fs-6 py-2 px-3">Render Cloud Hosting</span>
+<section id="live-demo-access" class="mt-5">
+  <h2>Live Demo Access & Test Accounts</h2>
+  <p>
+    You can explore each portal directly using the pre-seeded accounts below:
+  </p>
+
+| Target Portal | Role / Persona | Live Demo URL | Email / Username | Password |
+| :--- | :--- | :--- | :--- | :--- |
+| **Genesis Portal** | SaaS Super Admin | [genesis-o00r.onrender.com/login](https://genesis-o00r.onrender.com/login){:target="_blank" rel="noopener noreferrer"} | `admin@aensoft.com` | `password` |
+| **Talent Portal** *(Aensoft)* | HR Admin / Recruiter | [talent-97f5.onrender.com/aensoft/login](https://talent-97f5.onrender.com/aensoft/login){:target="_blank" rel="noopener noreferrer"} | `admin@aensoft.com` | `password` |
+| **Talent Portal** *(Acme)* | Multi-Tenant Isolation Test | [talent-97f5.onrender.com/acme/login](https://talent-97f5.onrender.com/acme/login){:target="_blank" rel="noopener noreferrer"} | `admin@acme.com` | `password` |
+| **Career Portal** | Candidate / Job Seeker | [career-0rwi.onrender.com/login](https://career-0rwi.onrender.com/login){:target="_blank" rel="noopener noreferrer"} | `candidate@example.com` | `password` *(or register)* |
+
+</section>
+
+<section id="architecture" class="mt-5">
+  <h2>Architecture & Engineering Highlights</h2>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="project-card-title">🛡️ PostgreSQL Row-Level Security (RLS)</div>
+      <p>
+        Tenant isolation is enforced directly at the database engine level via PostgreSQL RLS using <code>SET LOCAL app.current_tenant_id = '...'</code> on transactions, preventing cross-tenant data leaks.
+      </p>
     </div>
+
+    <div class="project-card">
+      <div class="project-card-title">⚡ Path-Based Strict Routing</div>
+      <p>
+        All tenant endpoints use strict path prefixing (<code>/{slug}/dashboard</code>, <code>/{slug}/hr/employees</code>), eliminating DNS/subdomain complexity while maintaining crisp tenant boundary isolation.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">🔐 Dynamic Permission Control (PBAC)</div>
+      <p>
+        Routes are evaluated dynamically against a centralized permission catalog (HTTP method + resource path matching), allowing tenant admins to create custom roles beyond fixed role hierarchies.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">🚀 Scale-to-Zero Cloud Efficiency</div>
+      <p>
+        Engineered for Neon Serverless PostgreSQL with HikariCP lazy connection initialization and rapid idle connection release for optimized cloud resource usage.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">🧪 Playwright Java E2E Automation</div>
+      <p>
+        End-to-end integration tests written with Microsoft Playwright for Java and JUnit 5, testing complete cross-portal lifecycles from tenant onboarding to candidate hiring with automated video/screenshot evidence.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">🔄 Centralized Flyway Migrations</div>
+      <p>
+        Database version control using a standalone Flyway Maven module with discrete profiles (<code>-P genesis</code>, <code>-P talent</code>, <code>-P career</code>) maintaining schema history in a centralized schema.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="tech-stack" class="mt-5">
+  <h2>Technical Features & Tech Stack</h2>
+  <ul class="skills-list">
+    <li>Java 21 (LTS)</li>
+    <li>Spring Boot 4.1.0</li>
+    <li>Spring Security & OAuth2 / OIDC</li>
+    <li>Spring Data JPA & Hibernate 6</li>
+    <li>PostgreSQL 18 & Row-Level Security (RLS)</li>
+    <li>Neon Serverless Postgres</li>
+    <li>Flyway Database Migrations</li>
+    <li>Microsoft Playwright for Java E2E</li>
+    <li>Thymeleaf & Layout Dialect</li>
+    <li>CoreUI Bootstrap 5.6.1</li>
+    <li>GitHub Actions CI/CD</li>
+    <li>Render Cloud Hosting</li>
+  </ul>
 </section>
