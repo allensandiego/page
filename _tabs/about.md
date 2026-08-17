@@ -13,12 +13,16 @@ Furthermore, I actively leverage AI-assisted development and pair programming to
 
 Beyond my Oracle specializations, I maintain a versatile full-stack skill set, with practical experience in automation via Bash scripting and development capabilities using modern languages such as Java, Python, and TypeScript, alongside native Android development.
 
+### Enterprise SaaS & Full-Stack Engineering
+
+Recently, I architected and implemented the **AENSOFT HCM Platform**, a multi-tenant enterprise Human Capital Management and Talent Acquisition suite built on **Java 21 (LTS)** and **Spring Boot 4.1.0**. The platform spans three decoupled applications (**Genesis** SaaS Operator, **Talent** Workforce & ATS, and **Career** Candidate Portal) featuring PostgreSQL Row-Level Security (RLS) for bulletproof tenant data isolation, dynamic permission-based access control (PBAC), and automated Microsoft Playwright for Java E2E test suites.
+
 ### Personal Projects & CI/CD
 
 On the personal and indie development front, I design, deploy, and maintain several apps, frequently integrating Gemini AI to power intelligent features—such as the carb counter from meal photos and automated glucose extraction from glucometer photos in **Gluconitor**, and smart logging in **Vrooomed**. I build robust CI/CD pipelines using GitHub Actions to automate deployments across platforms, including:
+- Deploying backend services and APIs to Render.
 - Deploying mobile apps to the Google Play Store.
 - Hosting web apps and serverless features on Firebase.
-- Deploying backend services and APIs to Render.
 - Managing database migrations and schema evolution using Flyway targeting Supabase or Neon.
 
 ### App Support, Home Lab & Agentic Automation
