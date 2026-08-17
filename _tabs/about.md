@@ -15,7 +15,7 @@ Beyond my Oracle specializations, I maintain a versatile full-stack skill set, w
 
 ### Enterprise SaaS & Full-Stack Engineering
 
-Recently, I architected and implemented the **AENSOFT HCM Platform**, a multi-tenant enterprise Human Capital Management and Talent Acquisition suite built on **Java 21 (LTS)** and **Spring Boot 4.1.0**. The platform spans three decoupled applications (**Genesis** SaaS Operator, **Talent** Workforce & ATS, and **Career** Candidate Portal) featuring PostgreSQL Row-Level Security (RLS) for bulletproof tenant data isolation, dynamic permission-based access control (PBAC), and automated Microsoft Playwright for Java E2E test suites.
+Recently, I architected and implemented the **Talent Platform**, a multi-tenant enterprise Human Capital Management and Talent Acquisition suite built on **Java 21 (LTS)** and **Spring Boot 4.1.0**. The platform spans three decoupled applications (**Genesis** SaaS Operator, **Talent** Workforce & ATS, and **Career** Candidate Portal) featuring PostgreSQL Row-Level Security (RLS) for bulletproof tenant data isolation, dynamic permission-based access control (PBAC), and automated Microsoft Playwright for Java E2E test suites.
 
 ### Personal Projects & CI/CD
 
