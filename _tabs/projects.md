@@ -8,7 +8,7 @@ order: 2
 <div class="project-grid">
 {% for project in site.data.projects %}
 {% unless project.hidden %}
-<div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
+<div class="project-card">
   <div class="project-card-title">
     {% if project.internal_link %}
     <a href="{{ project.internal_link | relative_url }}">{{ project.title }}</a>
