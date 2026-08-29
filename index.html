@@ -27,7 +27,7 @@ panel: false
     {% for project in site.data.projects %}
       {% unless project.hidden %}
         {% if featured_titles contains project.title or featured_titles contains project.subtitle %}
-          <div class="project-card" {% if project.internal_link %}onclick="location.href='{{ project.internal_link | relative_url }}'" style="cursor: pointer;"{% endif %}>
+          <div class="project-card">
             <div class="project-card-title">
               {% if project.internal_link %}
                 <a href="{{ project.internal_link | relative_url }}">{{ project.title }}</a>

@@ -1,9 +1,11 @@
 <!-- Facebook domain verification -->
 <meta name="facebook-domain-verification" content="vng1rahcsd8i30bx1z2il53s0i1wp9" />
 
-<!-- Google AdSense -->
+<!-- Google AdSense - Only load on blog posts with substantive content -->
+{% if page.layout == 'post' %}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3121428457842525"
     crossorigin="anonymous"></script>
+{% endif %}
 
 <!-- Custom Styles for Portfolio -->
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
