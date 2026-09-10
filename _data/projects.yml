@@ -5,6 +5,13 @@
   link: https://talent-97f5.onrender.com/
   internal_link: ./hcm
 
+- title: TutorAI
+  subtitle: AI Tutorial Assistant & Study Packet Generator (Java 21 / Spring Boot 3 / React 19)
+  description: 100% stateless educational platform that transforms study documents (PDF, DOCX, TXT, OCR) into structured review packets, interactive practice exams, and downloadable PDF/DOCX study sheets using Google Gemini 2.5 Flash and Spring AI.
+  status: Live Demo
+  link: https://tutorai-latest.onrender.com
+  internal_link: ./tutorai
+
 - title: Gluconitor
   subtitle: Web Application
   description: Whether you are tracking glucose levels, logging nutrition, or managing medication, Gluconitor provides a sleek and intuitive interface to help you stay on top of your wellness journey.

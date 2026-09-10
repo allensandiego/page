@@ -1,0 +1,183 @@
+---
+layout: page
+title: TutorAI — AI Tutorial Assistant & Study Packet Generator
+---
+
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title"><span class="highlight">TutorAI</span></h1>
+    <p class="hero-subtitle">AI Tutorial Assistant & Study Packet Generator • Java 21 • Spring Boot 3.4 • Spring AI • React 19 • Google Gemini</p>
+    <p class="hero-description">
+      An intelligent educational assistant that transforms uploaded study materials—including PDFs, Word documents, plain text, and photographed notes via client-side OCR—into structured study reviewers, interactive self-assessments, and downloadable formatted PDF & Word DOCX packets with detached answer keys.
+    </p>
+    <div class="hero-cta">
+      <a href="https://tutorai-latest.onrender.com" class="btn-primary-custom" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-external-link-alt me-1"></i> Launch TutorAI
+      </a>
+      <a href="https://github.com/allensandiego/tutorai" class="btn-secondary-custom" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github me-1"></i> View on GitHub
+      </a>
+      <a href="#features" class="btn-secondary-custom">
+        <i class="fas fa-list-check me-1"></i> Key Features
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="mt-4">
+  <h2>About TutorAI</h2>
+  <p>
+    Studying dense educational material—lengthy textbook chapters, lecture notes, research essays, or historical articles—is often a passive, time-consuming process. <strong>TutorAI</strong> bridges the gap between passive reading and active recall by instantly converting raw educational content into comprehensive, high-yield study packets in under 15 seconds.
+  </p>
+  <p>
+    Designed as a 100% stateless web application, TutorAI requires zero user registration and zero database storage. All document processing happens on-the-fly, keeping personal notes private and operational overhead minimal.
+  </p>
+</section>
+
+<section id="features" class="mt-4">
+  <h2>Key Capabilities</h2>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">📄</span> Multi-Format Document Ingestion
+      </div>
+      <div class="project-card-subtitle">Document Parsing & OCR</div>
+      <p>
+        Upload PDF files (parsed via Apache PDFBox), Word documents (.docx via Apache POI), plain text files, or snap a photo of physical textbook pages using browser-based client-side optical character recognition (OCR via Tesseract.js).
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">🧠</span> Structured AI Review Generation
+      </div>
+      <div class="project-card-subtitle">Gemini 2.5 Flash & Spring AI</div>
+      <p>
+        Leveraging Gemini's massive 1,000,000+ token context window, TutorAI extracts core concepts, definitions, Multiple Choice questions (with 1 correct answer and 3 plausible distractors), True/False statements, and Fill-in-the-Blank exercises in a single structured pass.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">🎯</span> Interactive Practice Exam
+      </div>
+      <div class="project-card-subtitle">In-Browser Self-Assessment</div>
+      <p>
+        Test your knowledge immediately in the web browser. The interactive exam provides real-time scoring, instant answer verification, source citations pointing back to the uploaded material, and seamless session caching.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">📥</span> Professional PDF & DOCX Export
+      </div>
+      <div class="project-card-subtitle">Offline Printable Packets</div>
+      <p>
+        Export high-quality, formatted study packets on demand. Generated PDFs (OpenPDF) and Word documents (Apache POI) feature a clean student practice sheet followed by a clean page break separating the detached Answer Key & Explanations.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">🛡️</span> Privacy-First & 100% Stateless
+      </div>
+      <div class="project-card-subtitle">Zero-Retention Architecture</div>
+      <p>
+        No database, no user accounts, and no persistent cloud storage. Documents are streamed in memory during processing and discarded immediately, ensuring total privacy for proprietary curriculum and sensitive personal notes.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">
+        <span class="me-1">⚡</span> Rapid 15-Second Generation
+      </div>
+      <div class="project-card-subtitle">Low-Latency Performance</div>
+      <p>
+        By eliminating vector database chunking and traditional multi-step RAG pipelines, entire multi-page documents are analyzed holistically with sub-15-second generation times and instant offline download triggers.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="architecture" class="mt-5">
+  <h2>Architecture & Engineering Highlights</h2>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="project-card-title">📦 Single Unified Container</div>
+      <p>
+        Multi-stage Docker build that compiles the React 19 + TypeScript + Vite + Tailwind CSS frontend and packages static assets directly into the Spring Boot 3 executable JAR, served as a single lightweight container image.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">🤖 Spring AI Integration</div>
+      <p>
+        Built on Spring AI (OpenAI API specification compatibility) connecting directly to Google Gemini's generative AI models with strict schema-conforming structured JSON outputs for reliable question generation.
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">☁️ Render Free-Tier Optimization</div>
+      <p>
+        Fine-tuned for constrained container memory budgets (&le; 512MB RAM) using JVM Serial Garbage Collection, explicit heap allocation limits (<code>-Xmx350m -Xms128m</code>), and health check monitoring (<code>/health</code>).
+      </p>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-title">🔄 Automated CI/CD & Deploy Hook</div>
+      <p>
+        GitHub Actions pipeline running oxlint, TypeScript checks, and Maven unit tests. Upon merging to <code>main</code>, multi-stage containers are pushed to GitHub Container Registry (GHCR) and automatically deployed to Render via deploy hooks.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="tech-stack" class="mt-5">
+  <h2>Technical Features & Tech Stack</h2>
+  <ul class="skills-list">
+    <li>Java 21 (LTS)</li>
+    <li>Spring Boot 3.4.3</li>
+    <li>Spring AI 1.0.0</li>
+    <li>Google Gemini 2.5 Flash</li>
+    <li>React 19 & TypeScript</li>
+    <li>Vite & Tailwind CSS v4</li>
+    <li>Lucide React Icons</li>
+    <li>Tesseract.js (Client-side OCR)</li>
+    <li>Apache PDFBox 3.0.4</li>
+    <li>Apache POI 5.4.0 (DOCX)</li>
+    <li>OpenPDF 2.0.3 (PDF Export)</li>
+    <li>Docker & GitHub Container Registry (GHCR)</li>
+    <li>Render Web Service</li>
+    <li>GitHub Actions CI/CD</li>
+  </ul>
+</section>
+
+<section id="ai-transparency" class="mt-5">
+  <h2>🤖 AI-Assisted Development Transparency</h2>
+  <p>
+    TutorAI was engineered using an <strong>Orchestrator–Executor multi-agent workflow</strong> pairing high-reasoning primary models with high-speed execution engines to maximize architectural rigor and rapid delivery:
+  </p>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <h4 class="mb-3">Multi-Agent Workflow Pattern</h4>
+      <ul class="skills-list">
+        <li><strong>Orchestrator (High Reasoning)</strong> — Backend architecture, Spring AI contract modeling, prompt engineering, security boundaries, and code review</li>
+        <li><strong>Executor Subagents (High Speed)</strong> — Vite/React UI scaffolding, Tailwind styling, Tesseract.js client OCR hooks, and test fixtures</li>
+      </ul>
+    </div>
+
+    <div class="col-md-6">
+      <h4 class="mb-3">Development & CI/CD Tooling</h4>
+      <ul class="skills-list">
+        <li><strong>Google Antigravity & CLI</strong> — Agentic workspace planning and task decomposition</li>
+        <li><strong>Opencode</strong> — Rapid iterative code generation and validation</li>
+        <li><strong>GitHub Actions & GHCR</strong> — Automated build, lint, containerization, and deployment</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert alert-info mt-4" role="alert">
+    <strong>Human-Led Verification:</strong> All critical architectural choices—including prompt safety, memory limits for containerized JVM hosting, stateless security boundaries, and document export fidelity—were curated, tested, and validated by human engineering judgment.
+  </div>
+</section>

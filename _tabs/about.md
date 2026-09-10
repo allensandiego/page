@@ -19,7 +19,7 @@ Recently, I architected and implemented the **Talent Platform**, a multi-tenant 
 
 ### Personal Projects & CI/CD
 
-On the personal and indie development front, I design, deploy, and maintain several apps, frequently integrating Gemini AI to power intelligent features—such as the carb counter from meal photos and automated glucose extraction from glucometer photos in **Gluconitor**, and smart logging in **Vrooomed**. I build robust CI/CD pipelines using GitHub Actions to automate deployments across platforms, including:
+On the personal and indie development front, I design, deploy, and maintain several apps, frequently integrating Gemini AI to power intelligent features—such as full-context document reviewer and study packet generation in **TutorAI**, the carb counter from meal photos and automated glucose extraction from glucometer photos in **Gluconitor**, and smart logging in **Vrooomed**. I build robust CI/CD pipelines using GitHub Actions to automate deployments across platforms, including:
 - Deploying backend services and APIs to Render.
 - Deploying mobile apps to the Google Play Store.
 - Hosting web apps and serverless features on Firebase.
