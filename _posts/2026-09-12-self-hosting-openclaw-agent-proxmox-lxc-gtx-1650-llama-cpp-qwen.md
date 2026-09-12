@@ -6,6 +6,7 @@ categories: [AI, Homelab]
 tags: [proxmox, lxc, nvidia, gtx-1650, llama-cpp, qwen, openclaw, homelab, local-llm]
 description: A complete guide to setting up an ultra-fast, 24/7 self-hosted OpenClaw AI agent in Proxmox LXC using NVIDIA GTX 1650 passthrough, Debian Trixie, llama.cpp with Flash Attention, and Qwen 3.5 2B.
 toc: true
+mermaid: true
 ---
 
 ## 💡 Introduction: Repurposing Budget Silicon for 24/7 AI
@@ -46,7 +47,7 @@ Here is the complete blueprint of how it all works.
 Rather than running a heavyweight Virtual Machine (VM) with dedicated PCIe passthrough—which locks hardware resources and adds virtualization overhead—we leverage **dual Proxmox LXC containers**. Containers share the host Linux kernel directly, offering near-native GPU compute performance and instantaneous boot times.
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph Cloud["External Services & Frontier Models"]
         APPS["Production Apps"] -->|"Exceptions / Errors"| BUGSNAG["Bugsnag"]
         BUGSNAG -->|"Webhook"| GH["GitHub Issues"]
@@ -73,16 +74,16 @@ graph TD
             AGENT --> WORKSPACE
         end
 
-        GPU -. Passthrough via cgroups & dev nodes .-> NV
-        AGENT -- "Routine Tasks / Cron (Port 8080)" --> LLAMA
+        GPU -.->|"Passthrough via cgroups & dev nodes"| NV
+        AGENT -->|"Routine Tasks / Cron (Port 8080)"| LLAMA
     end
 
-    GH <-->|"1. Periodic Issue Scan (Local 2B)"| AGENT
-    AGENT <-->|"2. Switch for Deep Investigation"| CLOUD_LLM
+    GH -->|"1. Periodic Issue Scan (Local 2B)"| AGENT
+    AGENT -->|"2. Switch for Deep Investigation"| CLOUD_LLM
     CLOUD_LLM -->|"3. Formulate Fix & Create PR"| WORKSPACE
     WORKSPACE -->|"4. Push Branch & Open PR"| GH
-    AGENT <-->|"Questions / Alerts"| SLACK["Slack Workspace"]
-    SLACK <--> USER
+    AGENT ---|"Questions & Alerts"| SLACK["Slack Workspace"]
+    SLACK --- USER
 ```
 
 ### Hardware & Environment Specs
