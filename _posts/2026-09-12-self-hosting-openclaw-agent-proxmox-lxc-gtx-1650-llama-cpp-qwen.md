@@ -217,6 +217,48 @@ llama serve \
 > [!IMPORTANT]
 > The `--flash-attn on` flag is vital. On a 4GB card, allocating a 64k unoptimized KV cache would instantly trigger an Out-of-Memory (OOM) error. With Flash Attention, memory consumption remains under **~2.93 GB**, leaving over **1 GB of VRAM headroom**!
 
+### 3. Automating on Boot with Systemd
+To ensure the inference server starts automatically whenever the container or Proxmox host reboots, create a systemd service unit at `/etc/systemd/system/llama.service`:
+
+```ini
+[Unit]
+Description=llama.cpp Inference Server (Qwen 3.5 2B)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+Environment="HOME=/root"
+Environment="PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/root/.local/bin/llama serve -hf unsloth/Qwen3.5-2B-GGUF:Q4_0 --host 0.0.0.0 --port 8080 --parallel 1 -c 65536 --flash-attn on
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Reload systemd, enable the service on boot, and start it:
+
+```bash
+systemctl daemon-reload
+systemctl enable llama.service
+systemctl start llama.service
+```
+
+You can view real-time inference and server logs at any time using `journalctl`:
+
+```bash
+# Follow logs in real-time
+journalctl -u llama -f
+
+# View the last 100 log lines
+journalctl -u llama -n 100 --no-pager
+```
+
 ---
 
 ## 📊 Performance Benchmarks: GTX 1650 in Action
