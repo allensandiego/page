@@ -57,7 +57,7 @@ graph TD
     subgraph Host["Proxmox VE Host (Intel i5-4670 | Kernel 6.8.12-pve)"]
         GPU["NVIDIA GeForce GTX 1650 (4GB VRAM)"]
 
-        subgraph LXC110["LXC 110: Local Inference (Debian Trixie)"]
+        subgraph LXC_INFERENCE["LXC: Local Inference (Debian Trixie)"]
             NV["NVIDIA Driver 535.247 + CUDA 12.2"]
             LLAMA["llama.cpp (llama serve b10909)"]
             MODEL["Qwen 3.5 2B GGUF (Q4_0)"]
@@ -89,8 +89,8 @@ graph TD
 - **Host CPU:** Intel Core i5-4670 @ 3.40 GHz (4 cores)
 - **Host Kernel:** Proxmox VE `6.8.12-11-pve`
 - **GPU:** NVIDIA GeForce GTX 1650 (TU117, 4096 MiB VRAM)
-- **LXC 110 (`llm`):** Debian Trixie (testing), 4 GB RAM, NVIDIA Driver `535.247.01`
-- **LXC (`claw.lan`):** Ubuntu 24.04 LTS, 16 GB RAM, Node.js `v24.18.0`, OpenClaw Gateway
+- **LXC (`llm`):** Debian Trixie (testing), 4 GB RAM, NVIDIA Driver `535.247.01`
+- **LXC (`claw`):** Ubuntu 24.04 LTS, 16 GB RAM, Node.js `v24.18.0`, OpenClaw Gateway
 
 ---
 
@@ -119,8 +119,8 @@ ls -l /dev/nvidia*
 
 In our setup, the major numbers are `195` (NVIDIA core/control/modeset) and `234` (NVIDIA Unified Virtual Memory / UVM).
 
-### 2. Proxmox LXC Configuration (`/etc/pve/lxc/110.conf`)
-Open the container configuration file on the Proxmox host and append the cgroup allowances and device mount entries:
+### 2. Proxmox LXC Configuration (`/etc/pve/lxc/<CTID>.conf`)
+Open the container configuration file on the Proxmox host (e.g., `/etc/pve/lxc/100.conf`) and append the cgroup allowances and device mount entries:
 
 ```ini
 arch: amd64
@@ -128,9 +128,9 @@ cores: 4
 features: nesting=1
 hostname: llm
 memory: 4096
-net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.0.1,ip=192.168.0.245/24,type=veth
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.1.1,ip=192.168.1.50/24,type=veth
 ostype: debian
-rootfs: local-lvm:vm-110-disk-0,size=32G
+rootfs: local-lvm:vm-100-disk-0,size=32G
 swap: 4096
 unprivileged: 0
 
@@ -221,7 +221,7 @@ llama serve \
 
 ## 📊 Performance Benchmarks: GTX 1650 in Action
 
-We benchmarked the server using an OpenAI-compatible completion call against `http://192.168.0.245:8080/completion`:
+We benchmarked the server using an OpenAI-compatible completion call against `http://192.168.1.50:8080/completion`:
 
 | Metric | Result | Notes |
 | :--- | :---: | :--- |
@@ -238,10 +238,10 @@ At **50+ tokens per second**, responses feel instantaneous—significantly faste
 
 ## 🤖 Step 3: Configuring the OpenClaw Agent
 
-In the companion container (`claw.lan`), we have **OpenClaw Gateway (v2026.7.1)** running as a systemd user service.
+In the companion container (`claw.local`), we have **OpenClaw Gateway (v2026.7.1)** running as a systemd user service.
 
 ### 1. Registering the Local Llama Provider
-In `/home/openclaw/.openclaw/openclaw.json`, configure the custom `llama` provider pointing to our LXC inference node on `192.168.0.245:8080`:
+In `/home/openclaw/.openclaw/openclaw.json`, configure the custom `llama` provider pointing to our LXC inference node on `192.168.1.50:8080`:
 
 ```json
 {
@@ -249,7 +249,7 @@ In `/home/openclaw/.openclaw/openclaw.json`, configure the custom `llama` provid
     "llama": {
       "apiKey": "llama",
       "api": "openai-completions",
-      "baseUrl": "http://192.168.0.245:8080/v1",
+      "baseUrl": "http://192.168.1.50:8080/v1",
       "models": [
         {
           "id": "Qwen3.5-2B-GGUF:Q4_0",
@@ -340,7 +340,7 @@ With the configuration complete, here is how OpenClaw executes its two-tier main
 Monitoring OpenClaw via `journalctl --user -u openclaw-gateway.service`:
 
 ```text
-openclaw node[28081]: [model-fetch] start provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 method=POST url=http://192.168.0.245:8080/v1/chat/completions
+openclaw node[28081]: [model-fetch] start provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 method=POST url=http://192.168.1.50:8080/v1/chat/completions
 openclaw node[28081]: [model-fetch] response provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 status=200 elapsedMs=228 dispatcher=reused contentType=text/event-stream
 ```
 
