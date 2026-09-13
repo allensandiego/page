@@ -4,7 +4,7 @@ title: "Autonomous Bug-to-PR: Multi-Agent Engineering with OpenClaw, Workboard, 
 date: 2026-09-13 13:00:00 +0800
 categories: [AI, Automation]
 tags: [openclaw, ai-agents, multi-agent, workboard, bugsnag, github, gemini, deepseek, qwen, devops, homelab]
-description: A complete architectural blueprint for building an autonomous, production-ready bug-fixing pipeline using OpenClaw: Bugsnag incident ingestion, multi-agent Workboard Kanban, sandboxed execution with atomic git workflows, and zero-token idle frontier code review.
+description: "A complete architectural blueprint for building an autonomous, production-ready bug-fixing pipeline using OpenClaw: Bugsnag incident ingestion, multi-agent Workboard Kanban, sandboxed execution with atomic git workflows, and zero-token idle frontier code review."
 toc: true
 mermaid: true
 ---
@@ -43,28 +43,28 @@ flowchart TD
     end
 
     subgraph Orchestration["2. Triage & Dispatch (Local 2B)"]
-        MAIN["Lead Orchestrator: main\n(Qwen 3.5 2B @ GTX 1650)"]
-        WORKBOARD[("OpenClaw Workboard\n[ready → in_progress → review → done]")]
+        MAIN["Lead Orchestrator: main<br/>(Qwen 3.5 2B @ GTX 1650)"]
+        WORKBOARD[("OpenClaw Workboard<br/>[ready → in_progress → review → done]")]
         GATEWAY --> MAIN
         MAIN -->|"2a. Create Card (ready)"| WORKBOARD
-        DISPATCHER["Workboard Auto-Dispatcher\n(Local Command Cron)"] -->|"2b. Assign Card"| RINOA
+        DISPATCHER["Workboard Auto-Dispatcher<br/>(Local Command Cron)"] -->|"2b. Assign Card"| RINOA
     end
 
     subgraph Execution["3. Sandboxed Worker (Gemini 3.8 Flash)"]
         subgraph DOCKER["Docker Sandbox Container"]
             RINOA["Worker Agent: rinoa"]
-            WORKSPACE["Isolated Workspace & Tooling\n(Java, Node, Git, Maven)"]
+            WORKSPACE["Isolated Workspace & Tooling<br/>(Java, Node, Git, Maven)"]
             RINOA --> WORKSPACE
         end
-        RINOA -->|"3a. git-task start"| BRANCH["Feature Branch\nfix/issue-X-slug"]
+        RINOA -->|"3a. git-task start"| BRANCH["Feature Branch<br/>fix/issue-X-slug"]
         RINOA -->|"3b. Implement Fix & Run Tests"| WORKSPACE
         RINOA -->|"3c. git-task submit-pr"| PR["Pull Request (GitHub)"]
         RINOA -->|"3d. workboard_complete"| WORKBOARD
     end
 
     subgraph Review["4. Zero-Token Frontier Review (DeepSeek V4 Pro)"]
-        MONITOR["Zero-Token Review Monitor\n(review-check.sh: ~10ms SQLite check)"]
-        REVIEWER["Frontier Review Subagent\n(DeepSeek V4 Pro)"]
+        MONITOR["Zero-Token Review Monitor<br/>(review-check.sh: ~10ms SQLite check)"]
+        REVIEWER["Frontier Review Subagent<br/>(DeepSeek V4 Pro)"]
         
         WORKBOARD -->|"Card in 'review'"| MONITOR
         MONITOR -->|"Wakes main only when PR exists"| MAIN
