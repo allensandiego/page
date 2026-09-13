@@ -15,28 +15,29 @@ Like many homelab enthusiasts, I had a modest PC powered by an older 4th-gen Int
 
 > **Could an entry-level 4GB GPU power an always-on, 24/7 autonomous software engineer in my homelab—without incurring eye-watering cloud API bills or sluggish roundtrips?**
 
-### 🎯 The Dream: Autonomous Issue Triage & Bug Fixing
+### 🎯 The Dream: Autonomous Issue Triage, Worker Dispatch & Code Review
 
 In my day-to-day development, most of my apps report runtime errors and exceptions to **Bugsnag**. Whenever an incident occurs, Bugsnag triggers a webhook that automatically opens a **GitHub Issue** in the corresponding repository. 
 
-Previously, that issue would sit in a backlog waiting for manual triage. Now, **OpenClaw** takes over:
+Previously, that issue would sit in a backlog waiting for manual triage, fixing, and review. Now, an **autonomous multi-agent pipeline powered by OpenClaw** takes over:
 
-1. **Scheduled Monitoring (Local Qwen 3.5 2B):** OpenClaw runs on a periodic schedule to scan my GitHub account for newly opened issues and handle routine heartbeat tasks. Because this runs 24/7 at high frequency, executing it locally costs $0 in API bills.
-2. **Switching to Cloud for Investigation:** Once a real issue is detected, OpenClaw **switches the active investigation to a frontier cloud model** (such as Gemini Flash or DeepSeek). This provides the massive reasoning bandwidth needed to analyze deep stack traces, multi-file codebases, and complex architecture dependencies.
-3. **Autonomous Repository Setup:** The agent automatically clones the repository into its local workspace sandbox if it isn't already present.
-4. **Smart Triage & Escalation:** If the issue requires business logic decisions, credentials, or human clarification, OpenClaw pings me directly in **Slack** with a concise brief.
-5. **Auto-Fix & Pull Request:** If the problem is self-contained (e.g., edge-case null checks, unhandled exceptions, or validation bugs), the agent diagnoses the root cause, writes the fix, runs tests, and **submits a clean Pull Request**.
-6. **Human-in-the-Loop Review:** All I have to do is review the proposed PR on GitHub and hit Approve or Reject.
+1. **Scheduled Triage (Local Qwen 3.5 2B):** OpenClaw's `main` agent runs on a periodic schedule to scan GitHub for newly opened issues and handle routine heartbeat tasks. Because this runs 24/7 at high frequency, executing it locally on our GTX 1650 costs **$0 in API bills**.
+2. **Workboard Kanban Dispatch:** `main` creates a card on OpenClaw's internal Workboard in the `ready` column and assigns it to **`rinoa`**—a dedicated worker agent running in an isolated Docker sandbox container powered by **Gemini 3.8 Flash**.
+3. **Atomic Feature Branching & Fixes (`git-task`):** `rinoa` claims the card (`in_progress`), checks out a feature branch (`fix/issue-<num>-<slug>`), diagnoses the root cause, writes code, runs unit/integration tests, and submits a Pull Request via GitHub CLI (`gh pr create`). Pushing directly to `main` is strictly forbidden.
+4. **Zero-Token Idle Review Monitoring:** When `rinoa` completes her run, the card enters the `review` column. To avoid burning API credits polling cloud models 24/7, a lightweight local shell pre-check monitors the Workboard. If no cards are in review, it exits in 10ms with **zero API calls and zero token cost**.
+5. **Frontier Subagent Delegation (`deepseek/deepseek-v4-pro`):** Once a card reaches `review`, `main` spawns a dedicated code review subagent via `sessions_spawn` configured with a frontier reasoning model (**DeepSeek V4 Pro**).
+6. **Autonomous Code Review & Merge:** The frontier subagent inspects the diff (`gh pr diff`), validates test passes and security, and either:
+   - **Approves & Merges:** Runs `gh pr review --approve`, merges via `gh pr merge --squash --delete-branch`, moves the Workboard card to `done`, and notifies Slack.
+   - **Requests Changes:** Leaves line-by-line feedback on the PR, moves the card back to `ready` for `rinoa` to revise, and alerts Slack.
 
-### ⚖️ The Best of Both Worlds: Hybrid Local + Cloud Tiering
+### ⚖️ The Best of Both Worlds: Three-Tier Hybrid Architecture
 
-Running continuous 24/7 agent loops, cron triggers, heartbeats, and frequent polling against commercial cloud LLMs would burn hundreds of thousands of tokens each week just doing routine housekeeping. 
+Running continuous 24/7 agent loops, cron triggers, heartbeats, and frequent polling against commercial cloud LLMs would burn millions of tokens each week just doing routine housekeeping. Conversely, relying *only* on a 2B local parameter model to review complex code changes or write multi-file features stretches small models beyond their limit.
 
-Conversely, relying *only* on a 2B local parameter model to perform deep architectural refactoring across a large production codebase would stretch its limits.
-
-The solution is a **two-tiered hybrid setup**:
-- **Tier 1 (Local GTX 1650 + Qwen 3.5 2B):** Always-on, ultra-fast (50+ tok/s), zero-cost gatekeeper handling cron jobs, GitHub issue polling, and routine simple tasks.
-- **Tier 2 (Cloud Model Escalation):** Dynamically invoked when an investigation starts, handling deep code reading, test generation, and complex bug patching.
+The solution is a **three-tiered hybrid setup**:
+- **Tier 1 — Local Orchestrator (GTX 1650 + Qwen 3.5 2B):** Always-on, ultra-fast (50+ tok/s), zero-cost gatekeeper handling cron jobs, GitHub issue triage, and workboard dispatching.
+- **Tier 2 — Sandboxed Coding Worker (`rinoa` + Gemini 3.8 Flash):** Rapid execution engine inside Docker with full compiler/test tool access, implementing feature branches and opening PRs.
+- **Tier 3 — Frontier Review Subagent (`deepseek/deepseek-v4-pro`):** On-demand frontier reasoning invoked strictly when a PR is waiting for review, performing rigorous diff analysis, approving, and squash-merging.
 
 Here is the complete blueprint of how it all works.
 
@@ -48,11 +49,11 @@ Rather than running a heavyweight Virtual Machine (VM) with dedicated PCIe passt
 
 ```mermaid
 flowchart TD
-    subgraph Cloud["External Services & Frontier Models"]
-        APPS["Production Apps"] -->|"Exceptions / Errors"| BUGSNAG["Bugsnag"]
+    subgraph Cloud["External Services & Cloud LLMs"]
+        APPS["Production Apps"] -->|"Errors / Exceptions"| BUGSNAG["Bugsnag"]
         BUGSNAG -->|"Webhook"| GH["GitHub Issues"]
-        CLOUD_LLM["Cloud Frontier LLM (Gemini / DeepSeek)"]
-        GH -.->|"PR Review & Merge"| USER["Developer / You"]
+        GEMINI["Worker Model: Gemini 3.8 Flash"]
+        DEEPSEEK["Review Model: DeepSeek V4 Pro"]
     end
 
     subgraph Host["Proxmox VE Host (Intel i5-4670 | Kernel 6.8.12-pve)"]
@@ -60,30 +61,41 @@ flowchart TD
 
         subgraph LXC_INFERENCE["LXC: Local Inference (Debian Trixie)"]
             NV["NVIDIA Driver 535.247 + CUDA 12.2"]
-            LLAMA["llama.cpp (llama serve b10909)"]
+            LLAMA["llama.cpp (llama serve)"]
             MODEL["Qwen 3.5 2B GGUF (Q4_0)"]
             NV --> LLAMA
             MODEL --> LLAMA
         end
 
-        subgraph LXC_CLAW["LXC: OpenClaw Gateway (Ubuntu 24.04)"]
-            GATEWAY["OpenClaw Gateway v2026.7.1"]
-            AGENT["Agent: main (Tier 1: Qwen 3.5 2B)"]
-            WORKSPACE["Sandbox Workspace (Git Clones & PRs)"]
-            GATEWAY --> AGENT
-            AGENT --> WORKSPACE
+        subgraph LXC_CLAW["LXC: OpenClaw Host (Ubuntu 24.04)"]
+            GATEWAY["OpenClaw Gateway v2026.9.4"]
+            MAIN_AGENT["Lead Agent: main (Local Qwen 3.5 2B)"]
+            WORKBOARD[("Workboard Kanban Database")]
+            MONITOR["Zero-Token Review Monitor (review-check.sh)"]
+
+            subgraph DOCKER_SANDBOX["Docker Sandbox Container"]
+                RINOA["Worker Agent: rinoa"]
+                WORKSPACE["Workspace / Git Repos"]
+                RINOA --> WORKSPACE
+            end
+
+            GATEWAY --> MAIN_AGENT
+            MAIN_AGENT -->|"1. Triage Issue & Create Card"| WORKBOARD
+            WORKBOARD -->|"2. Dispatch to Worker"| RINOA
+            MONITOR -->|"4. Detects 'review' Status (0 Tokens)"| MAIN_AGENT
         end
 
         GPU -.->|"Passthrough via cgroups & dev nodes"| NV
-        AGENT -->|"Routine Tasks / Cron (Port 8080)"| LLAMA
+        MAIN_AGENT -->|"Routine Tasks / Heartbeat / Triage"| LLAMA
     end
 
-    GH -->|"1. Periodic Issue Scan (Local 2B)"| AGENT
-    AGENT -->|"2. Switch for Deep Investigation"| CLOUD_LLM
-    CLOUD_LLM -->|"3. Formulate Fix & Create PR"| WORKSPACE
-    WORKSPACE -->|"4. Push Branch & Open PR"| GH
-    AGENT ---|"Questions & Alerts"| SLACK["Slack Workspace"]
-    SLACK --- USER
+    GH -->|"Triage Scan"| MAIN_AGENT
+    RINOA <-->|"Tool Execution & Code Generation"| GEMINI
+    RINOA -->|"3. Feature Branch, Tests & PR (git-task)"| GH
+    MAIN_AGENT -->|"5. sessions_spawn(deepseek-v4-pro)"| DEEPSEEK
+    DEEPSEEK -->|"6. Inspect Diff, Verify & Squash-Merge"| GH
+    DEEPSEEK -->|"7. Card Done & Announce"| SLACK["Slack Workspace"]
+    SLACK --- USER["Developer / You"]
 ```
 
 ### Hardware & Environment Specs
@@ -91,7 +103,7 @@ flowchart TD
 - **Host Kernel:** Proxmox VE `6.8.12-11-pve`
 - **GPU:** NVIDIA GeForce GTX 1650 (TU117, 4096 MiB VRAM)
 - **LXC (`llm`):** Debian Trixie (testing), 4 GB RAM, NVIDIA Driver `535.247.01`
-- **LXC (`claw`):** Ubuntu 24.04 LTS, 16 GB RAM, Node.js `v24.18.0`, OpenClaw Gateway
+- **LXC (`claw`):** Ubuntu 24.04 LTS, 16 GB RAM, Node.js `v24.18.0`, OpenClaw Gateway `v2026.9.4`
 
 ---
 
@@ -306,19 +318,27 @@ In `/home/openclaw/.openclaw/openclaw.json`, configure the custom `llama` provid
 }
 ```
 
-### 2. Tier 1 Model Definition & Cloud Delegation Policy
-Assign `llama/Qwen3.5-2B-GGUF:Q4_0` as the default local driver for routine tasks and cron triggers, while configuring cloud models (like Gemini Flash or DeepSeek) as the investigation and fallback engines:
+### 2. Multi-Agent Setup & Frontier Delegation Policy
+In OpenClaw `v2026.9.4`, we establish a specialized multi-agent hierarchy:
+- **`main`:** The local lead orchestrator, triaging GitHub issues and managing the Workboard on `llama/Qwen3.5-2B-GGUF:Q4_0`.
+- **`rinoa`:** The autonomous coding worker, isolated inside a Docker sandbox container with Java, Node.js, and git tooling, powered by `google/gemini-3.8-flash`.
+- **Frontier Review Subagent:** Dynamically spawned by `main` via `sessions_spawn` with `deepseek/deepseek-v4-pro` solely when PRs are ready for code review.
+
+Here is the relevant snippet from `/home/openclaw/.openclaw/openclaw.json`:
 
 ```json
 {
   "agents": {
     "defaults": {
-      "model": {
-        "primary": "deepseek/deepseek-flash",
-        "fallbacks": ["google/gemini-3.8-flash"]
-      },
-      "subagents": {
-        "delegationMode": "prefer"
+      "modelPolicy": {
+        "allow": [
+          "deepseek/deepseek-v4-pro",
+          "deepseek/deepseek-flash",
+          "deepseek/*",
+          "google/gemini-3.8-flash",
+          "ollama-cloud/gpt-oss:120b",
+          "llama/*"
+        ]
       }
     },
     "entries": {
@@ -326,19 +346,38 @@ Assign `llama/Qwen3.5-2B-GGUF:Q4_0` as the default local driver for routine task
         "name": "main",
         "workspace": "/home/openclaw/.openclaw/workspace",
         "model": {
-          "primary": "llama/Qwen3.5-2B-GGUF:Q4_0"
-        },
-        "subagents": {
-          "delegationMode": "prefer"
+          "primary": "llama/Qwen3.5-2B-GGUF:Q4_0",
+          "fallbacks": [
+            "ollama-cloud/gpt-oss:120b",
+            "deepseek/deepseek-flash",
+            "google/gemini-3.8-flash"
+          ]
         },
         "tools": {
           "alsoAllow": [
-            "agents_list",
-            "tts",
-            "wiki_status",
-            "wiki_lint",
-            "wiki_apply"
+            "sessions_spawn",
+            "sessions_yield",
+            "subagents",
+            "message",
+            "workboard_list",
+            "workboard_create",
+            "workboard_complete",
+            "workboard_move"
           ]
+        }
+      },
+      "rinoa": {
+        "name": "rinoa",
+        "workspace": "/home/openclaw/.openclaw/workspace-rinoa",
+        "model": {
+          "primary": "google/gemini-3.8-flash"
+        },
+        "sandbox": {
+          "mode": "all",
+          "backend": "docker",
+          "docker": {
+            "image": "openclaw-rinoa:trixie-slim"
+          }
         }
       }
     }
@@ -346,54 +385,93 @@ Assign `llama/Qwen3.5-2B-GGUF:Q4_0` as the default local driver for routine task
 }
 ```
 
-### 3. Channel & Event Binding (Slack + Scheduled Issue Scan)
-Link the `main` agent to incoming messages from Slack for human interaction and notification alerts:
+### 3. Atomic Feature Branching & PR Workflow (`git-task`)
+To enforce strict repository safety, agents are **never allowed to commit or push directly to `main`**. We equip the worker with an atomic skill script (`git-task`):
+
+```bash
+# 1. Check out fresh feature branch
+git-task start --repo allensandiego/tutorai --issue 3 --name "db-timeout-fix"
+
+# 2. Worker edits code and validates tests in sandbox...
+
+# 3. Commit, push branch, open PR, comment on issue, and advance Workboard in 1 single turn
+git-task submit-pr \
+  --repo allensandiego/tutorai \
+  --issue 3 \
+  --title "fix(db): increase connection pool timeout" \
+  --summary "Resolved connection pool starvation under concurrent load." \
+  --verify "All unit and integration tests passing"
+```
+
+This ensures every code change is cleanly branched as `fix/issue-<num>-<slug>`, pushed to origin, and opened as a GitHub Pull Request linking back to the original issue.
+
+---
+
+### 4. Zero-Token Idle Review Architecture
+
+A naive approach to code review would be scheduling a background job running a frontier cloud model (like DeepSeek V4 Pro or Claude) every 5 minutes to check for pending PRs. However, this is a major anti-pattern: **the cloud LLM would wake up 288 times a day just to inspect an empty board, burning API credits 24/7 for zero work.**
+
+Instead, we designed a **Zero-Token Idle Pre-Check** (`~/.openclaw/scripts/review-check.sh`):
+
+```bash
+#!/usr/bin/env bash
+export PATH=/home/openclaw/.nvm/versions/node/v24.18.0/bin:$PATH
+
+# Query local SQLite workboard (100% free, 0 tokens, ~10ms execution)
+CARDS_JSON=$(openclaw workboard list --status review --json 2>/dev/null || echo '{"cards":[]}')
+COUNT=$(echo "$CARDS_JSON" | jq '.cards | length' 2>/dev/null || echo 0)
+
+if [ "$COUNT" -eq 0 ]; then
+  # Queue is empty. Exit immediately with zero API calls.
+  exit 0
+fi
+
+# Only when PRs are waiting, wake main to spawn the frontier review subagent:
+openclaw agent --agent main --message "Workboard Alert: $COUNT card(s) in review.
+Spawn a review subagent with model 'deepseek/deepseek-v4-pro' to review diff, test, and merge if approved."
+```
+
+We register this script as a recurring command automation in OpenClaw (`--every 5m --command "sh -lc ~/.openclaw/scripts/review-check.sh"`):
+- **When Idle (99% of the time):** A 10ms local SQLite query executes. **Cost: $0.00 / 0 tokens.**
+- **When a PR is Ready:** It triggers **once**, prompting `main` to spawn the frontier reviewer.
+
+---
+
+### 5. Autonomous Code Review & Merge in Action
+
+When `main` receives the review alert, it calls `sessions_spawn`:
 
 ```json
 {
-  "bindings": [
-    {
-      "agentId": "main",
-      "match": {
-        "accountId": "main",
-        "channel": "slack"
-      }
-    }
-  ]
+  "model": "deepseek/deepseek-v4-pro",
+  "label": "PR Review #3",
+  "task": "Review Pull Request #3 in allensandiego/tutorai:\n1. Run 'gh pr diff 3' to inspect all changes.\n2. Verify requirements, architecture standards, and test suites.\n3. If approved: approve via 'gh pr review --approve', merge via 'gh pr merge --squash --delete-branch', and complete the card.\n4. If changes requested: leave detailed comments via 'gh pr review --request-changes' and move card back to 'ready'."
 }
 ```
 
-### 4. The Autonomous Bug-Fixing Loop in Action
-With the configuration complete, here is how OpenClaw executes its two-tier maintenance cycle:
-
-1. **Bugsnag Webhook Trigger:** An unhandled production exception is captured by Bugsnag and forwarded to GitHub, creating an issue with the stack trace and error metadata.
-2. **Cron/Scheduled Ingestion (Local Qwen 3.5 2B):** The lightweight local model monitors the GitHub API on a scheduled cron. Because this polling runs 24/7, running it locally incurs zero API cost.
-3. **Model Switch on Investigation:** Once a real issue is detected, OpenClaw **delegates the investigation task to a cloud model** (such as Gemini Flash or DeepSeek) using `delegationMode: prefer`.
-4. **Workspace Git Clone:** The agent issues a git clone into its isolated sandbox (`/home/openclaw/.openclaw/workspace`) if the repository is not already cached.
-5. **Deep Code Analysis & Patching:** The cloud model analyzes the full stack trace, inspects the codebase, runs test scripts, and crafts the fix.
-6. **Human Escalation vs. Auto-PR:**
-   - **Needs Clarification:** If the issue requires business logic decisions or missing context, OpenClaw pings Slack with a concise query.
-   - **Direct Fix:** If self-contained, it creates a dedicated fix branch, pushes to GitHub, and submits a Pull Request.
-7. **Final Human Review:** You get a notification with the PR link, perform a quick code review, and merge with confidence.
+The frontier subagent executes the full review with deep reasoning, verifies test suites, squash-merges the PR to `main`, deletes the feature branch, and announces the successful deployment to Slack.
 
 ---
 
 ## 📈 Real-World Gateway Logs
 
-Monitoring OpenClaw via `journalctl --user -u openclaw-gateway.service`:
+Monitoring local triage runs via `journalctl --user -u openclaw-gateway.service`:
 
 ```text
-openclaw node[28081]: [model-fetch] start provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 method=POST url=http://192.168.1.x:8080/v1/chat/completions
-openclaw node[28081]: [model-fetch] response provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 status=200 elapsedMs=228 dispatcher=reused contentType=text/event-stream
+openclaw node[42165]: [model-fetch] start provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 method=POST url=http://192.168.0.245:8080/v1/chat/completions
+openclaw node[42165]: [model-fetch] response provider=llama api=openai-completions model=Qwen3.5-2B-GGUF:Q4_0 status=200 elapsedMs=214 dispatcher=reused contentType=text/event-stream
 ```
 
-Every routine heartbeat and cron turn in the agent loop executes with a **~220ms turnaround**, keeping the system responsive, nimble, and cost-free.
+Every routine heartbeat and GitHub triage turn executes with a **~210ms turnaround**, keeping the system responsive, nimble, and completely free of cloud token usage.
 
 ---
 
 ## 💡 Key Takeaways & Lessons Learned
 
-1. **The Power of Tiered AI Architecture:** Combining a local 2B model for high-frequency cron checks and simple tasks with cloud frontier models for deep investigation gives the ultimate sweet spot: **$0 wasted on idle loops, and maximum reasoning power when tackling code fixes**.
-2. **LXC > Heavy VMs for Homelab AI:** Passing `/dev/nvidia*` into an LXC avoids dedicating whole PCIe slots, allows instantaneous container reboots, and preserves CPU cycles for other tasks.
-3. **Flash Attention is a Game Changer for 4GB GPUs:** Without Flash Attention, a 4GB GTX 1650 would run out of memory on even moderate context sizes. With Flash Attention, 65k context runs comfortably inside 2.9GB VRAM.
-4. **The 2B Class Has Arrived:** Qwen 3.5 2B is fast, capable, and light enough to turn aging desktop hardware into a reliable, always-on homelab copilot.
+1. **Three-Tier AI Architecture is Optimal:** 
+   - **Local 2B (`Qwen 3.5 2B`):** 24/7 zero-cost triage, polling, and dispatch.
+   - **Sandboxed Worker (`Gemini 3.8 Flash`):** Fast, large-context implementation inside Docker.
+   - **Frontier Subagent (`DeepSeek V4 Pro`):** On-demand, high-reasoning code review and merge.
+2. **Never Poll with Cloud LLMs:** Always use command-based local pre-checks (`payload: { kind: "command" }`) against local state/SQLite before invoking paid APIs. Zero-token idle keeps cloud bills strictly tied to real deliverables.
+3. **Atomic Tooling Enforces Clean Git Hygiene:** Equipping agents with scripts like `git-task` prevents messy commit histories, protects `main`, and automates PR creation and issue linking in a single turn.
+4. **Flash Attention on Budget GPUs Works:** Running Qwen 3.5 2B with Flash Attention on an entry-level GTX 1650 provides 65k context at 50+ tok/s while consuming under 3 GB VRAM.
