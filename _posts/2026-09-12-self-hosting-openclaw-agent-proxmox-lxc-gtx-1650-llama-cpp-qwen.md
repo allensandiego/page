@@ -85,6 +85,9 @@ flowchart TD
     AGENT ---|"Questions & Alerts"| SLACK["Slack Workspace"]
     SLACK --- USER
 ```
+<p class="text-end text-muted small mt-1 mb-4">
+  <a href="https://mermaid.live/view#pako:eNp1VV1v4joQ/SujPFS5upcsUGi7PFwpJJCiBpoSPnZ1uapMMgWLYEdOAlTL/vcdB5bS0vVTPONz5ng8M/lhRDJGowXGSyK30ZKpHEbuTACtrJgvFEuX4CSyiP+bGZ1djkqwBEJUGx5hBlfQVVLkHBX0iSfJZsb/B7BedhCEBAuUjIso51KAnab6CFQq/+41X4SptmfwBTpKSUXOPbTHXjiwPUK2i0Um2OId6dF7pJjifCnlSsO8e0J4PL8v5tDLsgLfi3H8x7H77Pt9OlVe6E06GcH0cM0FJyEuYhoirv56B/fuoWKVIYMhDHHDcUu376NaoA4+DjtDInZxg4lMifMLfJfFiQFFPBMfsnovs/yQnd1a7mDSKS1g9kSOCfBmpXFzW4U9PFDOyXBj3Vm1eiXd4AdhwZhYBpOe27PBw65UEYI3+ga1m2YVzIbXhsnQ7h9Ab7CTDP+b89wbdDvDzsDpEBPtW+DLiJ65J15QoSA+08U5ZwJGiu/4BwF6DSZvGlzFN5SA5nXTqjdu4W9wxq4NtbpVv4D5vt23CZkkbM2sKE3BLD8howJDmNeqX6tfL6P1H92OT7CnLQq4tppQb4PnjbtgPjWeq5+p09VyiPYJ02fOswe7yJbj29PfiXpMUTgJ24LHctyyVzDH80LkBdQbVrVxKcWzR52p/Z3gF8hNvVq/sW6t2gXI9jqDEUHsBYq8BSv2ysAc6cqtteAsCZfhpo/DhzCwy4cNmYjnVGhTqVZZyvSrUrfo5hZlJwfD7I96yxSVMj5RVjpPkf6YQyrUUwuxLMuXShaLJWw4g2hB36kWEeMGBE2SchAMJmez5Hckgg9lkXOBMGLZSo8OhxoZzEDS7Lqr3ukC2J+/55kO3cUlRc2CABWXMY8OwwLCiOber/NQ+GUq9+cXPg9ftyDc8jxawotU5bigTtlglvMF09NMQ0/T5gA/bY8U1xZQo66LhN4eunxHN3cU6k0w1PAP2Txvj/AGqS+yJbQVEyTjqqzAI9S7f6-4QuOfCq1Oz9krMBJUeZne0LedB10YCYtWb2VxqoHSrxnK6Wb8A8Ya1ZrxWP8ufsyMfIprOt2CmRHjCyuSfGZ81MdkkJrwVUTkyleBZCnSmC7nckZdtD6af_4CEp3FqA==" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
+</p>
 
 ### Hardware & Environment Specs
 - **Host CPU:** Intel Core i5-4670 @ 3.40 GHz (4 cores)
