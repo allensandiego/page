@@ -9,3 +9,149 @@
 
 <!-- Custom Styles for Portfolio -->
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+
+{% if page.mermaid %}
+<!-- Native Mermaid Fullscreen Lightbox Modal -->
+<dialog id="mermaid-fullscreen-dialog" class="mermaid-dialog" closedby="any" aria-label="Diagram Fullscreen Viewer">
+  <div class="mermaid-dialog-header">
+    <h3 class="mermaid-dialog-title"><i class="fas fa-project-diagram me-2"></i>Diagram View</h3>
+    <div class="mermaid-dialog-actions">
+      <button type="button" class="mermaid-dialog-btn" id="mermaid-dialog-zoom-in" title="Zoom In" aria-label="Zoom In">
+        <i class="fas fa-search-plus"></i>
+      </button>
+      <button type="button" class="mermaid-dialog-btn" id="mermaid-dialog-zoom-out" title="Zoom Out" aria-label="Zoom Out">
+        <i class="fas fa-search-minus"></i>
+      </button>
+      <button type="button" class="mermaid-dialog-btn" id="mermaid-dialog-zoom-reset" title="Reset Zoom" aria-label="Reset Zoom">
+        <i class="fas fa-undo"></i>
+      </button>
+      <form method="dialog" style="margin: 0; display: inline;">
+        <button type="submit" class="mermaid-dialog-btn" title="Close (Esc)" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="mermaid-dialog-body" id="mermaid-dialog-body"></div>
+</dialog>
+
+<script>
+  (function () {
+    let currentZoom = 1.0;
+
+    function updateZoom(svg, delta) {
+      if (!svg) return;
+      if (delta === 0) {
+        currentZoom = 1.0;
+      } else {
+        currentZoom = Math.min(Math.max(0.4, currentZoom + delta), 3.0);
+      }
+      svg.style.transform = `scale(${currentZoom})`;
+    }
+
+    function initMermaidLightbox() {
+      const dialog = document.getElementById('mermaid-fullscreen-dialog');
+      const dialogBody = document.getElementById('mermaid-dialog-body');
+      if (!dialog || !dialogBody) return;
+
+      // Fallback light-dismiss for browsers without closedby support
+      if (!('closedBy' in HTMLDialogElement.prototype)) {
+        dialog.addEventListener('click', (event) => {
+          if (event.target !== dialog) return;
+          const rect = dialog.getBoundingClientRect();
+          const isInDialog = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (!isInDialog) dialog.close();
+        });
+      }
+
+      // Zoom controls
+      document.getElementById('mermaid-dialog-zoom-in')?.addEventListener('click', () => {
+        updateZoom(dialogBody.querySelector('svg'), 0.2);
+      });
+      document.getElementById('mermaid-dialog-zoom-out')?.addEventListener('click', () => {
+        updateZoom(dialogBody.querySelector('svg'), -0.2);
+      });
+      document.getElementById('mermaid-dialog-zoom-reset')?.addEventListener('click', () => {
+        updateZoom(dialogBody.querySelector('svg'), 0);
+      });
+
+      // Observe rendered mermaid blocks and attach fullscreen triggers
+      function attachFullscreenButtons() {
+        const mermaidNodes = document.querySelectorAll('pre.mermaid:not([data-lightbox-init])');
+        mermaidNodes.forEach((node) => {
+          const svg = node.querySelector('svg');
+          if (!svg) return; // Not rendered by Mermaid yet
+
+          node.setAttribute('data-lightbox-init', 'true');
+
+          // Wrap pre.mermaid if not already wrapped
+          let wrapper = node.parentElement;
+          if (!wrapper.classList.contains('mermaid-wrapper')) {
+            wrapper = document.createElement('div');
+            wrapper.className = 'mermaid-wrapper';
+            node.parentNode.insertBefore(wrapper, node);
+            wrapper.appendChild(node);
+          }
+
+          // Create Expand / Fullscreen Button
+          const expandBtn = document.createElement('button');
+          expandBtn.type = 'button';
+          expandBtn.className = 'mermaid-zoom-btn';
+          expandBtn.setAttribute('aria-label', 'Open diagram fullscreen');
+          expandBtn.title = 'View fullscreen';
+          expandBtn.innerHTML = '<i class="fas fa-expand-arrows-alt"></i> Fullscreen';
+
+          function openModal() {
+            const currentSvg = node.querySelector('svg');
+            if (!currentSvg) return;
+            dialogBody.innerHTML = '';
+            const clonedSvg = currentSvg.cloneNode(true);
+            clonedSvg.removeAttribute('id');
+            clonedSvg.style.maxWidth = '100%';
+            clonedSvg.style.maxHeight = '100%';
+            clonedSvg.style.width = 'auto';
+            clonedSvg.style.height = 'auto';
+            dialogBody.appendChild(clonedSvg);
+            currentZoom = 1.0;
+            clonedSvg.style.transform = 'scale(1)';
+            dialog.showModal();
+          }
+
+          expandBtn.addEventListener('click', openModal);
+          wrapper.appendChild(expandBtn);
+
+          // Clicking SVG directly also triggers fullscreen
+          node.style.cursor = 'zoom-in';
+          node.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return; // Allow embedded links inside diagram nodes
+            openModal();
+          });
+        });
+      }
+
+      // Initial check & interval polling for deferred Mermaid rendering
+      attachFullscreenButtons();
+      const interval = setInterval(() => {
+        attachFullscreenButtons();
+        const uninitialized = document.querySelectorAll('pre.mermaid:not([data-lightbox-init])');
+        if (uninitialized.length === 0 && document.querySelectorAll('pre.mermaid').length > 0) {
+          clearInterval(interval);
+        }
+      }, 300);
+
+      setTimeout(() => clearInterval(interval), 10000);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMermaidLightbox);
+    } else {
+      initMermaidLightbox();
+    }
+  })();
+</script>
+{% endif %}
