@@ -1,3 +1,52 @@
+# Jekyll build output
 _site/
 .sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Bundler / Ruby
+vendor/
+.bundle/
+
+# Node.js (if any tooling added later)
+node_modules/
+
+# Environment variables & secrets
+.env
+.env.*
+.env.local
+.env.production
+.env.staging
+
+# Credentials & private keys
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+*secret*.json
+service-account*.json
+
+# Logs & archives
+*.log
+*.zip
+logs/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Misc scripts
 import_blog.rb
