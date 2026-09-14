@@ -68,7 +68,7 @@ flowchart TD
 
         subgraph LXC_CLAW["LXC: OpenClaw Gateway (Ubuntu 24.04)"]
             GATEWAY["OpenClaw Gateway v2026.7.1"]
-            AGENT["Agent: main (Tier 1: Qwen 3.5 2B)"]
+            AGENT["Agent: kaya (Tier 1: Qwen 3.5 2B)"]
             WORKSPACE["Sandbox Workspace (Git Clones & PRs)"]
             GATEWAY --> AGENT
             AGENT --> WORKSPACE
@@ -322,8 +322,8 @@ Assign `llama/Qwen3.5-2B-GGUF:Q4_0` as the default local driver for routine task
       }
     },
     "entries": {
-      "main": {
-        "name": "main",
+      "kaya": {
+        "name": "kaya",
         "workspace": "/home/openclaw/.openclaw/workspace",
         "model": {
           "primary": "llama/Qwen3.5-2B-GGUF:Q4_0"
@@ -347,13 +347,13 @@ Assign `llama/Qwen3.5-2B-GGUF:Q4_0` as the default local driver for routine task
 ```
 
 ### 3. Channel & Event Binding (Slack + Scheduled Issue Scan)
-Link the `main` agent to incoming messages from Slack for human interaction and notification alerts:
+Link the `kaya` agent to incoming messages from Slack for human interaction and notification alerts:
 
 ```json
 {
   "bindings": [
     {
-      "agentId": "main",
+      "agentId": "kaya",
       "match": {
         "accountId": "main",
         "channel": "slack"

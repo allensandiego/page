@@ -36,7 +36,7 @@ Instead, we organize our system around clear professional identities, strict sep
 | Identity | Agent Handle | Role & Title | Workspace Directory | Primary Engine / Hardware | Core Responsibilities |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Allen Sandiego** | `@allensandiego` | Product Owner & System Architect | Workstation / Git | Human-in-the-Loop | Architecture decisions, business requirements, homelab infrastructure, escalation authority. |
-| **Kaya Valentini** | `main`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#deployments`). |
+| **Kaya Valentini** | `kaya`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#deployments`). |
 | **Rinoa Heartlilly** | `rinoa`<br/>``rinoa.heartlilly`` | Software Developer / Apprentice | `~/.openclaw/workspace-rinoa` | Google Gemini 3.8 Flash | Picks up `ready` cards, creates feature branches, diagnoses code, writes unit tests, submits PRs via `git-task`. |
 
 ---
@@ -112,7 +112,7 @@ sequenceDiagram
     participant Bugsnag as Bugsnag / bugger
     participant GH as GitHub (Issues / PRs / Proj 2)
     participant WB as Workboard (SQLite)
-    participant Kaya as Kaya Valentini (main)
+    participant Kaya as Kaya Valentini (kaya)
     participant Rinoa as Rinoa Heartlilly (rinoa)
     participant DeepSeek as DeepSeek V4 Pro (Reviewer)
     participant Slack as Slack (Channel #deployments)
@@ -187,8 +187,8 @@ OpenClaw registers the two distinct agent workspaces and their role policies:
       }
     },
     "entries": {
-      "main": {
-        "name": "main",
+      "kaya": {
+        "name": "kaya",
         "workspace": "/home/openclaw/.openclaw/workspace",
         "model": {
           "primary": "llama/Qwen3.5-2B-GGUF:Q4_0",
@@ -447,7 +447,7 @@ for ROW in $(echo "$CARDS_JSON" | jq -r '.cards[] | @base64'); do
   fi
 
   # 4. CI passed! Only now do we invoke Kaya to perform frontier code review.
-  openclaw agent --agent main --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Project 2 'Done', complete card, and alert Slack channel #deployments."
+  openclaw agent --agent kaya --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Project 2 'Done', complete card, and alert Slack channel #deployments."
 done
 ```
 
