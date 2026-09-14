@@ -530,7 +530,5 @@ Here is the operational breakdown across a typical 24-hour cycle handling 5 prod
    Separating **Chief of Staff (Kaya)** from **Developer Apprentice (Rinoa)** enforces accountability. Rinoa cannot self-merge or close cards; Kaya orchestrates and reviews.
 2. **Zero-Token Polling Saves Budgets:**
    Never poll queues or watch PRs using paid LLMs. Use deterministic shell scripts against local SQLite databases to trigger model inference strictly on actionable state changes.
-3. **Repository Rules Trump Prompts:**
-   Do not rely on system prompts alone to prevent agents from pushing to `main`. Use GitHub repository branch protection rules, required collaborator reviews, and non-bypassable CI checks.
-4. **Local GPUs Handle the High-Frequency Noise:**
+3. **Local GPUs Handle the High-Frequency Noise:**
    Running Qwen 3.5 2B on a modest GTX 1650 provides free, 24/7 background intelligence for cron and triage tasks, preserving cloud budget for high-reasoning code analysis and reviews.
