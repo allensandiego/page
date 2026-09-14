@@ -49,51 +49,51 @@ The system bridges local homelab compute, external SaaS observability, and front
 flowchart TD
     subgraph Ingestion["1. Observability & Ingestion"]
         APPS["Production Apps"] -->|"Exceptions"| BUGSNAG["Bugsnag"]
-        BUGSNAG -->|"Webhook"| BUGGER["Cloudflare Worker (bugger)"]
+        BUGSNAG -->|"Webhook"| BUGGER["Cloudflare Worker: bugger"]
         BUGGER -->|"Create Issue"| GH_ISSUES["GitHub Issues"]
     end
 
     subgraph Triage["2. Issue Triage & Synchronization"]
-        TRIAGE["triage-issues.sh<br/>(Scheduled Cron Job)"]
-        WORKBOARD[("OpenClaw Workboard<br/>(workboard.sqlite)<br/>ready → running → review → done")]
-        GH_PROJ["GitHub Project 2<br/>(Ready → In progress → In review → Done)"]
+        TRIAGE["triage-issues.sh<br/>Scheduled Cron Job"]
+        WORKBOARD[("OpenClaw Workboard<br/>workboard.sqlite<br/>ready / running / review / done")]
+        GH_PROJ["GitHub Project 2<br/>Ready / In progress / In review / Done"]
         
         GH_ISSUES --> TRIAGE
-        TRIAGE -->|"1. Add to Project 2 (Ready)"| GH_PROJ
-        TRIAGE -->|"2. Create Card (status: ready)"| WORKBOARD
+        TRIAGE -->|"1. Add to Project 2: Ready"| GH_PROJ
+        TRIAGE -->|"2. Create Card: ready"| WORKBOARD
     end
 
-    subgraph Execution["3. Developer Execution (Rinoa Heartlilly)"]
-        RINOA["Developer Agent: rinoa<br/>(Gemini 3.8 Flash)"]
-        WORKSPACE["Isolated Workspace<br/>(~/.openclaw/workspace-rinoa)"]
-        GITTASK["git-task Skill<br/>(skills/git-workflow/git-task)"]
+    subgraph Execution["3. Developer Execution: Rinoa Heartlilly"]
+        RINOA["Developer Agent: rinoa<br/>Gemini 3.8 Flash"]
+        WORKSPACE["Isolated Workspace<br/>~/.openclaw/workspace-rinoa"]
+        GITTASK["git-task Skill<br/>skills/git-workflow/git-task"]
         
-        WORKBOARD -->|"Picks card in 'ready'"| RINOA
-        RINOA -->|"Move card → 'running'"| WORKBOARD
-        RINOA -->|"Set status → 'In progress'"| GH_PROJ
+        WORKBOARD -->|"Picks card in ready"| RINOA
+        RINOA -->|"Move card to running"| WORKBOARD
+        RINOA -->|"Set status to In progress"| GH_PROJ
         RINOA -->|"git-task start"| WORKSPACE
         WORKSPACE -->|"Diagnose, Patch & Test"| WORKSPACE
         WORKSPACE -->|"git-task submit-pr"| GITTASK
-        GITTASK -->|"Create PR & Sync 'In review'"| GH_PR["GitHub Pull Request"]
-        GITTASK -->|"Set status → 'In review'"| GH_PROJ
-        RINOA -->|"openclaw workboard move --status review"| WORKBOARD
+        GITTASK -->|"Create PR & Sync In review"| GH_PR["GitHub Pull Request"]
+        GITTASK -->|"Set status to In review"| GH_PROJ
+        RINOA -->|"Move card to review"| WORKBOARD
     end
 
-    subgraph Review["4. Zero-Token Review & Merge (Kaya Valentini)"]
-        MONITOR["review-check.sh<br/>(Cron every 5m / 0-token idle)"]
-        KAYA["Lead Orchestrator: Kaya Valentini<br/>(sessions_spawn: DeepSeek V4 Pro)"]
-        BRANCH_PROT{{"GitHub Branch Protection<br/>(Requires Collaborator Approval)"}}
-        SLACK["Slack Notifications<br/>(Channel #C0XXXXXXXXX)"]
+    subgraph Review["4. Zero-Token Review & Merge: Kaya Valentini"]
+        MONITOR["review-check.sh<br/>Cron every 5m / 0-token idle"]
+        KAYA["Lead Orchestrator: Kaya Valentini<br/>sessions_spawn: DeepSeek V4 Pro"]
+        BRANCH_PROT["GitHub Branch Protection<br/>Requires Collaborator Approval"]
+        SLACK["Slack Notifications<br/>Channel C0XXXXXXXXX"]
         
-        WORKBOARD -->|"Query cards in 'review'"| MONITOR
+        WORKBOARD -->|"Query cards in review"| MONITOR
         MONITOR -->|"Verify CI Checks Passing"| GH_PR
         MONITOR -->|"Trigger Review"| KAYA
-        KAYA -->|"Inspect diff & Run security review"| GH_PR
+        KAYA -->|"Inspect diff & Security review"| GH_PR
         GH_PR --> BRANCH_PROT
-        KAYA -->|"@kayavalentini approves & squash-merges"| BRANCH_PROT
+        KAYA -->|"Approves & squash-merges"| BRANCH_PROT
         BRANCH_PROT -->|"Merge commit"| GH_MAIN["origin/main"]
         KAYA -->|"Delete feature branch"| GH_PR
-        KAYA -->|"Set status → 'Done'"| GH_PROJ
+        KAYA -->|"Set status to Done"| GH_PROJ
         KAYA -->|"workboard complete card"| WORKBOARD
         KAYA -->|"Post Deployment Summary"| SLACK
     end
@@ -115,32 +115,32 @@ sequenceDiagram
     participant Kaya as Kaya Valentini (main)
     participant Rinoa as Rinoa Heartlilly (rinoa)
     participant DeepSeek as DeepSeek V4 Pro (Reviewer)
-    participant Slack as Slack (#C0XXXXXXXXX)
+    participant Slack as Slack (Channel C0XXXXXXXXX)
 
     Bugsnag->>GH: Ingest unhandled exception & create GitHub Issue #42
     Note over Kaya,WB: triage-issues.sh runs every 10m
-    Kaya->>GH: gh-project-sync.sh add Issue #42 (Status: "Ready")
-    Kaya->>WB: openclaw workboard create --status ready --title "Fix Issue #42"
+    Kaya->>GH: gh-project-sync.sh add Issue #42 (Status: Ready)
+    Kaya->>WB: openclaw workboard create --status ready
     
     Note over Rinoa,WB: Rinoa checks Workboard
-    Rinoa->>WB: openclaw workboard move card-42 --status running
-    Rinoa->>GH: gh-project-sync.sh set-status #42 "In progress"
-    Rinoa->>Rinoa: git-task start --repo tutorai --issue 42 --name "null-pointer"
+    Rinoa->>WB: openclaw workboard move card-42 to running
+    Rinoa->>GH: gh-project-sync.sh set-status #42 In progress
+    Rinoa->>Rinoa: git-task start (feature branch fix/issue-42)
     Rinoa->>Rinoa: Diagnostic budget (max 5 turns) & run unit tests
     Rinoa->>GH: git-task submit-pr (opens PR #43, links #42)
-    Rinoa->>GH: gh-project-sync.sh set-status #42 "In review"
-    Rinoa->>WB: openclaw workboard move card-42 --status review
+    Rinoa->>GH: gh-project-sync.sh set-status #42 In review
+    Rinoa->>WB: openclaw workboard move card-42 to review
     Note over Rinoa: Rinoa handoff complete (cannot self-merge or call complete)
 
     Note over Kaya,WB: review-check.sh runs every 5m (0-token local SQLite check)
     Kaya->>GH: Verify GitHub Actions CI status for PR #43
     Kaya->>DeepSeek: sessions_spawn review subagent (diff inspection)
     DeepSeek-->>Kaya: Code approved (clean test coverage, zero regression)
-    Kaya->>GH: gh pr review 43 --approve -b "LGTM: verified by @kayavalentini"
-    Kaya->>GH: gh pr merge 43 --squash --delete-branch
-    Kaya->>GH: gh-project-sync.sh set-status #42 "Done"
+    Kaya->>GH: gh pr review 43: Approve and squash-merge
+    Kaya->>GH: gh pr merge 43: Squash-merge into main & delete branch
+    Kaya->>GH: gh-project-sync.sh set-status #42 Done
     Kaya->>WB: openclaw workboard complete card-42
-    Kaya->>Slack: Post release & PR summary to #C0XXXXXXXXX
+    Kaya->>Slack: Post release & PR summary to C0XXXXXXXXX
 ```
 
 ---
