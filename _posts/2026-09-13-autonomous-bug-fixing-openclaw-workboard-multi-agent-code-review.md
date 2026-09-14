@@ -36,7 +36,7 @@ Instead, we organize our system around clear professional identities, strict sep
 | Identity | Agent Handle | Role & Title | Workspace Directory | Primary Engine / Hardware | Core Responsibilities |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Allen Sandiego** | `@allensandiego` | Product Owner & System Architect | Workstation / Git | Human-in-the-Loop | Architecture decisions, business requirements, homelab infrastructure, escalation authority. |
-| **Kaya Valentini** | `main`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#C0XXXXXXXXX`). |
+| **Kaya Valentini** | `main`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#deployments`). |
 | **Rinoa Heartlilly** | `rinoa`<br/>``rinoa.heartlilly`` | Software Developer / Apprentice | `~/.openclaw/workspace-rinoa` | Google Gemini 3.8 Flash | Picks up `ready` cards, creates feature branches, diagnoses code, writes unit tests, submits PRs via `git-task`. |
 
 ---
@@ -83,7 +83,7 @@ flowchart TD
         MONITOR["review-check.sh<br/>Cron every 5m / 0-token idle"]
         KAYA["Lead Orchestrator: Kaya Valentini<br/>sessions_spawn: DeepSeek V4 Pro"]
         BRANCH_PROT["GitHub Branch Protection<br/>Requires Collaborator Approval"]
-        SLACK["Slack Notifications<br/>Channel C0XXXXXXXXX"]
+        SLACK["Slack Notifications<br/>Channel #deployments"]
         
         WORKBOARD -->|"Query cards in review"| MONITOR
         MONITOR -->|"Verify CI Checks Passing"| GH_PR
@@ -115,7 +115,7 @@ sequenceDiagram
     participant Kaya as Kaya Valentini (main)
     participant Rinoa as Rinoa Heartlilly (rinoa)
     participant DeepSeek as DeepSeek V4 Pro (Reviewer)
-    participant Slack as Slack (Channel C0XXXXXXXXX)
+    participant Slack as Slack (Channel #deployments)
 
     Bugsnag->>GH: Ingest unhandled exception & create GitHub Issue
     Note over Kaya,WB: triage-issues.sh runs every 10m
@@ -140,7 +140,7 @@ sequenceDiagram
     Kaya->>GH: gh pr merge: Squash-merge into main & delete branch
     Kaya->>GH: gh-project-sync.sh set-status Done
     Kaya->>WB: openclaw workboard complete <card_id>
-    Kaya->>Slack: Post release & PR summary to C0XXXXXXXXX
+    Kaya->>Slack: Post release & PR summary to #deployments
 ```
 
 ---
@@ -447,7 +447,7 @@ for ROW in $(echo "$CARDS_JSON" | jq -r '.cards[] | @base64'); do
   fi
 
   # 4. CI passed! Only now do we invoke Kaya to perform frontier code review.
-  openclaw agent --agent main --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Project 2 'Done', complete card, and alert Slack channel C0XXXXXXXXX."
+  openclaw agent --agent main --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Project 2 'Done', complete card, and alert Slack channel #deployments."
 done
 ```
 
@@ -471,7 +471,7 @@ Once woken by `review-check.sh`, Kaya Valentini delegates the code inspection to
 
 ```json
 {
-  "task": "Review Pull Request #<PR_NUM> on <owner>/<repo>:\n1. Run: gh pr diff <PR_NUM> --repo <owner>/<repo>\n2. Validate logic against regression, platform compatibility, and test coverage.\n3. If valid:\n   - gh pr review <PR_NUM> --repo <owner>/<repo> --approve -b 'LGTM: verified by @kayavalentini.'\n   - gh pr merge <PR_NUM> --repo <owner>/<repo> --squash --delete-branch\n   - ~/.openclaw/scripts/gh-project-sync.sh set-status '<issue_url>' 'Done'\n   - openclaw workboard complete <card_id>\n   - Post release summary to Slack channel C0XXXXXXXXX.",
+  "task": "Review Pull Request #<PR_NUM> on <owner>/<repo>:\n1. Run: gh pr diff <PR_NUM> --repo <owner>/<repo>\n2. Validate logic against regression, platform compatibility, and test coverage.\n3. If valid:\n   - gh pr review <PR_NUM> --repo <owner>/<repo> --approve -b 'LGTM: verified by @kayavalentini.'\n   - gh pr merge <PR_NUM> --repo <owner>/<repo> --squash --delete-branch\n   - ~/.openclaw/scripts/gh-project-sync.sh set-status '<issue_url>' 'Done'\n   - openclaw workboard complete <card_id>\n   - Post release summary to Slack channel #deployments.",
   "model": "deepseek/deepseek-v4-pro",
   "label": "PR Review #<PR_NUM>"
 }
@@ -489,7 +489,7 @@ When DeepSeek approves the diff:
 2. The PR is squash-merged, and the temporary feature branch `fix/issue-<N>-<slug>` is deleted from GitHub.
 3. The GitHub Project 2 card status updates to **Done**.
 4. The Workboard card transitions to **done** in `workboard.sqlite`.
-5. An automated deployment payload lands in Slack channel **`C0XXXXXXXXX`**:
+5. An automated deployment payload lands in Slack channel **`#deployments`**:
 
 ```text
 🚀 Autonomous Fix Merged & Deployed
