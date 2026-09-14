@@ -275,23 +275,32 @@ A periodic cron automation queries GitHub for new issues labeled `bug` or genera
 ```bash
 #!/usr/bin/env bash
 # ~/.openclaw/scripts/triage-issues.sh
-set -euo pipefail
+set -eo pipefail
 
-# Find untriaged open issues
-ISSUES=$(gh issue list --repo allensandiego/tutorai --label "bug" --state open --json number,title,url --jq '.[]')
+PROJECT_OWNER="allensandiego"
+DB_PATH="$HOME/.openclaw/plugins/workboard/workboard.sqlite"
 
-for ISSUE in $(echo "$ISSUES" | jq -r '.number'); do
+# Discover open issues across all repositories assigned for triage
+ISSUES=$(gh search issues --owner="$PROJECT_OWNER" --assignee=kayavalentini --state=open --json number,title,repository,url 2>/dev/null || echo "[]")
+
+echo "$ISSUES" | jq -c '.[]' | while IFS= read -r issue; do
+  NUM=$(echo "$issue" | jq -r '.number')
+  TITLE=$(echo "$issue" | jq -r '.title')
+  REPO=$(echo "$issue" | jq -r '.repository.nameWithOwner')
+  URL=$(echo "$issue" | jq -r '.url')
+
   # Check if Workboard already tracks this issue
-  EXISTING=$(openclaw workboard list --json | jq -r ".cards[] | select(.external_id == \"issue-$ISSUE\") | .id")
-  if [ -z "$EXISTING" ]; then
-    # 1. Sync to GitHub Project 2 as 'Ready'
-    gh-project-sync.sh add "https://github.com/allensandiego/tutorai/issues/$ISSUE" "Ready"
-    
-    # 2. Insert into OpenClaw Workboard as 'ready'
-    openclaw workboard create \
-      --title "Fix Issue #$ISSUE" \
-      --status ready \
-      --external-id "issue-$ISSUE"
+  EXISTS=$(sqlite3 "$DB_PATH" "SELECT id FROM workboard_cards WHERE notes LIKE '%$URL%' OR title LIKE '%$REPO#$NUM%';" 2>/dev/null)
+  
+  if [ -z "$EXISTS" ]; then
+    # 1. Reassign triage mailbox to developer agent
+    gh issue edit "$NUM" --repo "$REPO" --remove-assignee kayavalentini --add-assignee rinoaheartlilly >/dev/null 2>&1 || true
+
+    # 2. Create card in Workboard (status: ready, assigned to rinoa)
+    openclaw workboard create --agent rinoa --status ready --notes "$URL" "$REPO#$NUM: $TITLE"
+
+    # 3. Sync to GitHub Project 2 (Status: Ready)
+    ~/.openclaw/scripts/gh-project-sync.sh add "$URL" "Ready"
   fi
 done
 ```
