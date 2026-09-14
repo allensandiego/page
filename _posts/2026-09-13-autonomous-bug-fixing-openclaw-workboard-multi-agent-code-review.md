@@ -333,18 +333,18 @@ To prevent git tree corruptions, Rinoa interacts with Git exclusively through th
 openclaw workboard move card-104 --status running
 gh-project-sync.sh set-status 104 "In progress"
 
-git-task start --repo allensandiego/tutorai --issue 42 --name "fix-pool-timeout"
+git-task start --repo <owner>/<repo> --issue 42 --name "fix-startup-crash"
 ```
 Behind the scenes, `git-task`:
 - Stashes or resets any untracked artifacts.
 - Synchronizes with the latest remote `origin/main`.
-- Creates and checks out a feature branch: `fix/issue-42-fix-pool-timeout`.
+- Creates and checks out a feature branch: `fix/issue-42-fix-startup-crash`.
 
 #### 2. Atomic PR Submission (`git-task submit-pr`)
 Once the fix is implemented and local unit tests pass:
 ```bash
 git-task submit-pr \
-  --repo allensandiego/tutorai \
+  --repo allensandiego/mapia \
   --issue 42 \
   --title "fix(db): resolve connection pool starvation on high concurrency" \
   --summary "Increased connection timeout threshold to 5000ms and added backoff retry handler." \
@@ -353,7 +353,7 @@ git-task submit-pr \
 
 In a single atomic step, `git-task submit-pr`:
 1. Formats commits following Conventional Commits syntax (`fix(db): ... Resolves #42`).
-2. Pushes the branch `fix/issue-42-fix-pool-timeout` to `origin`.
+2. Pushes the branch `fix/issue-42-fix-startup-crash` to `origin`.
 3. Opens a Pull Request against `main` via `gh pr create`.
 4. Links PR to GitHub Issue `#42`.
 5. Invokes `gh-project-sync.sh set-status 42 "In review"`.
@@ -375,14 +375,14 @@ A common anxiety with AI coding agents is the risk of an agent hallucinating per
 In our repository architecture, we enforce **GitHub Repository Branch Protection Rules** at the API layer:
 
 ```text
-Repository: allensandiego/tutorai
+Repository: allensandiego/mapia (and all managed repositories)
 Protected Branch: main
 ├── Require a pull request before merging: ENABLED
 │   ├── Require approvals: 1
 │   ├── Dismiss stale pull request approvals when new commits are pushed: ENABLED
 │   └── Require review from Code Owners: ENABLED
 ├── Require status checks to pass before merging: ENABLED
-│   └── Status checks: build, unit-tests, integration-tests
+│   └── Status checks: Flutter Lint, Build macOS, Build Windows, Build Linux
 ├── Do not allow bypassing the above settings: ENABLED
 └── Restrict who can push to matching branches: Kaya Valentini (@kayavalentini)
 ```
@@ -425,7 +425,7 @@ fi
 for ROW in $(echo "$CARDS_JSON" | jq -r '.cards[] | @base64'); do
   _jq() { echo "$ROW" | base64 --decode | jq -r "$1"; }
   CARD_ID=$(_jq '.id')
-  REPO=$(_jq '.metadata.repo // "allensandiego/tutorai"')
+  REPO=$(_jq '.metadata.repo // "allensandiego/mapia"')
   PR_NUM=$(_jq '.metadata.pr_number')
 
   # 3. Check GitHub Actions CI check status
@@ -468,17 +468,17 @@ Once woken by `review-check.sh`, Kaya Valentini delegates the code inspection to
 
 ```json
 {
-  "task": "Review Pull Request #43 on allensandiego/tutorai:
-1. Run: gh pr diff 43 --repo allensandiego/tutorai
+  "task": "Review Pull Request #43 on allensandiego/mapia:
+1. Run: gh pr diff 43 --repo allensandiego/mapia
 2. Validate logic against regression, thread-safety, and test coverage.
 3. If valid:
-   - gh pr review 43 --repo allensandiego/tutorai --approve -b 'LGTM: verified by @kayavalentini.'
-   - gh pr merge 43 --repo allensandiego/tutorai --squash --delete-branch
+   - gh pr review 43 --repo allensandiego/mapia --approve -b 'LGTM: verified by @kayavalentini.'
+   - gh pr merge 43 --repo allensandiego/mapia --squash --delete-branch
    - ~/.openclaw/scripts/gh-project-sync.sh set-status 42 'Done'
    - openclaw workboard complete card-104
    - Post release summary to Slack channel C0XXXXXXXXX.",
   "model": "deepseek/deepseek-v4-pro",
-  "label": "PR Review #43"
+  "label": "PR Review #18"
 }
 ```
 
@@ -491,15 +491,15 @@ The review prompt focuses on engineering correctness:
 ### Autonomous Squash & Slack Notification
 When DeepSeek approves the diff:
 1. Kaya approves the PR on GitHub as `@kayavalentini`.
-2. The PR is squash-merged, and the temporary feature branch `fix/issue-42-fix-pool-timeout` is deleted from GitHub.
+2. The PR is squash-merged, and the temporary feature branch `fix/issue-42-fix-startup-crash` is deleted from GitHub.
 3. The GitHub Project 2 card status updates to **Done**.
 4. The Workboard card transitions to **done** in `workboard.sqlite`.
 5. An automated deployment payload lands in Slack channel **`C0XXXXXXXXX`**:
 
 ```text
 🚀 Autonomous Fix Merged & Deployed
-• Repo: allensandiego/tutorai (PR #43)
-• Issue: #42 "Connection pool exhaustion under load"
+• Repo: allensandiego/mapia (PR #18)
+• Issue: #42 "Mapia latest package crashes on application start"
 • Author: Rinoa Heartlilly (@rinoaheartlilly)
 • Reviewer: Kaya Valentini (@kayavalentini)
 • Commit: a8f912c "fix(db): resolve connection pool starvation (#43)"
