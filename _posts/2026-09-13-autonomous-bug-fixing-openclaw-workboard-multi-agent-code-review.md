@@ -117,29 +117,29 @@ sequenceDiagram
     participant DeepSeek as DeepSeek V4 Pro (Reviewer)
     participant Slack as Slack (Channel C0XXXXXXXXX)
 
-    Bugsnag->>GH: Ingest unhandled exception & create GitHub Issue #42
+    Bugsnag->>GH: Ingest unhandled exception & create GitHub Issue
     Note over Kaya,WB: triage-issues.sh runs every 10m
-    Kaya->>GH: gh-project-sync.sh add Issue #42 (Status: Ready)
+    Kaya->>GH: gh-project-sync.sh add Issue (Status: Ready)
     Kaya->>WB: openclaw workboard create --status ready
-    
-    Note over Rinoa,WB: Rinoa checks Workboard
-    Rinoa->>WB: openclaw workboard move card-42 to running
-    Rinoa->>GH: gh-project-sync.sh set-status #42 In progress
-    Rinoa->>Rinoa: git-task start (feature branch fix/issue-42)
+
+    Note over Rinoa,WB: Rinoa picks up card from Workboard
+    Rinoa->>WB: openclaw workboard move <card_id> to running
+    Rinoa->>GH: gh-project-sync.sh set-status In progress
+    Rinoa->>Rinoa: git-task start (creates fix/issue-N-slug branch)
     Rinoa->>Rinoa: Diagnostic budget (max 5 turns) & run unit tests
-    Rinoa->>GH: git-task submit-pr (opens PR #43, links #42)
-    Rinoa->>GH: gh-project-sync.sh set-status #42 In review
-    Rinoa->>WB: openclaw workboard move card-42 to review
+    Rinoa->>GH: git-task submit-pr (opens PR, links issue)
+    Rinoa->>GH: gh-project-sync.sh set-status In review
+    Rinoa->>WB: openclaw workboard move <card_id> to review
     Note over Rinoa: Rinoa handoff complete (cannot self-merge or call complete)
 
     Note over Kaya,WB: review-check.sh runs every 5m (0-token local SQLite check)
-    Kaya->>GH: Verify GitHub Actions CI status for PR #43
+    Kaya->>GH: Verify GitHub Actions CI status for PR
     Kaya->>DeepSeek: sessions_spawn review subagent (diff inspection)
     DeepSeek-->>Kaya: Code approved (clean test coverage, zero regression)
-    Kaya->>GH: gh pr review 43: Approve and squash-merge
-    Kaya->>GH: gh pr merge 43: Squash-merge into main & delete branch
-    Kaya->>GH: gh-project-sync.sh set-status #42 Done
-    Kaya->>WB: openclaw workboard complete card-42
+    Kaya->>GH: gh pr review: Approve as @kayavalentini
+    Kaya->>GH: gh pr merge: Squash-merge into main & delete branch
+    Kaya->>GH: gh-project-sync.sh set-status Done
+    Kaya->>WB: openclaw workboard complete <card_id>
     Kaya->>Slack: Post release & PR summary to C0XXXXXXXXX
 ```
 
@@ -330,38 +330,37 @@ To prevent git tree corruptions, Rinoa interacts with Git exclusively through th
 #### 1. Checking Out a Task (`git-task start`)
 ```bash
 # Rinoa picks up the card, moves status to running, and creates the branch
-openclaw workboard move card-104 --status running
-gh-project-sync.sh set-status 104 "In progress"
+openclaw workboard move <card_id> --status running
+~/.openclaw/scripts/gh-project-sync.sh set-status "<issue_url>" "In progress"
 
-git-task start --repo <owner>/<repo> --issue 42 --name "fix-startup-crash"
+git-task start --repo <owner>/<repo> --issue <N> --name "<short-slug>"
 ```
 Behind the scenes, `git-task`:
-- Stashes or resets any untracked artifacts.
 - Synchronizes with the latest remote `origin/main`.
-- Creates and checks out a feature branch: `fix/issue-42-fix-startup-crash`.
+- Creates and checks out a feature branch: `fix/issue-<N>-<short-slug>`.
 
 #### 2. Atomic PR Submission (`git-task submit-pr`)
 Once the fix is implemented and local unit tests pass:
 ```bash
 git-task submit-pr \
-  --repo allensandiego/mapia \
-  --issue 42 \
-  --title "fix(db): resolve connection pool starvation on high concurrency" \
-  --summary "Increased connection timeout threshold to 5000ms and added backoff retry handler." \
-  --verify "mvn test -Dtest=ConnectionPoolTest passed cleanly (14/14 tests)."
+  --repo <owner>/<repo> \
+  --issue <N> \
+  --title "fix: <concise description of the fix>" \
+  --summary "<bullet points of changes made>" \
+  --verify "<test results and verification notes>"
 ```
 
 In a single atomic step, `git-task submit-pr`:
-1. Formats commits following Conventional Commits syntax (`fix(db): ... Resolves #42`).
-2. Pushes the branch `fix/issue-42-fix-startup-crash` to `origin`.
+1. Formats commits following Conventional Commits syntax (`fix: ... Resolves #<N>`).
+2. Pushes the branch `fix/issue-<N>-<short-slug>` to `origin`.
 3. Opens a Pull Request against `main` via `gh pr create`.
-4. Links PR to GitHub Issue `#42`.
-5. Invokes `gh-project-sync.sh set-status 42 "In review"`.
+4. Links PR to GitHub Issue `#<N>`.
+5. Automatically invokes `gh-project-sync.sh set-status "<issue_url>" "In review"`.
 
 #### 3. Strict Handoff Protocol
 Rinoa marks her work complete by handing the card off:
 ```bash
-openclaw workboard move card-104 --status review
+openclaw workboard move <card_id> --status review
 ```
 > [!IMPORTANT]
 > **Rinoa is strictly forbidden from self-merging PRs or calling `workboard_complete` directly on PR tasks.** Her role terminates as soon as the card enters `review`. Only the lead orchestrator, Kaya Valentini, can approve, squash-merge, and close the card.
@@ -375,14 +374,14 @@ A common anxiety with AI coding agents is the risk of an agent hallucinating per
 In our repository architecture, we enforce **GitHub Repository Branch Protection Rules** at the API layer:
 
 ```text
-Repository: allensandiego/mapia (and all managed repositories)
+Repository: <owner>/<repo>
 Protected Branch: main
 ├── Require a pull request before merging: ENABLED
 │   ├── Require approvals: 1
 │   ├── Dismiss stale pull request approvals when new commits are pushed: ENABLED
 │   └── Require review from Code Owners: ENABLED
 ├── Require status checks to pass before merging: ENABLED
-│   └── Status checks: Flutter Lint, Build macOS, Build Windows, Build Linux
+│   └── Status checks: <your CI check names>
 ├── Do not allow bypassing the above settings: ENABLED
 └── Restrict who can push to matching branches: Kaya Valentini (@kayavalentini)
 ```
@@ -409,7 +408,7 @@ Instead, we decouple monitoring from model inference using a local shell automat
 ```bash
 #!/usr/bin/env bash
 # ~/.openclaw/scripts/review-check.sh
-set -euo pipefail
+set -eo pipefail
 export PATH="/home/openclaw/.nvm/versions/node/v24.18.0/bin:/usr/local/bin:$PATH"
 
 # 1. Fast, free query of local SQLite workboard (~10ms execution, $0.00 cost)
@@ -421,29 +420,33 @@ if [ "$COUNT" -eq 0 ]; then
   exit 0
 fi
 
-# 2. Extract active PR metadata
+# 2. For each card in review, extract its PR metadata and check CI
 for ROW in $(echo "$CARDS_JSON" | jq -r '.cards[] | @base64'); do
   _jq() { echo "$ROW" | base64 --decode | jq -r "$1"; }
   CARD_ID=$(_jq '.id')
-  REPO=$(_jq '.metadata.repo // "allensandiego/mapia"')
-  PR_NUM=$(_jq '.metadata.pr_number')
+  NOTES=$(_jq '.notes')
+
+  # Resolve repo and PR from card notes (stored as the issue URL)
+  REPO=$(echo "$NOTES" | sed -E 's|https://github.com/([^/]+/[^/]+)/.*|\1|')
+  PR_NUM=$(gh pr list --repo "$REPO" --state open --json number,headRefName \
+    --jq '.[] | select(.headRefName | startswith("fix/")) | .number' | head -n 1)
 
   # 3. Check GitHub Actions CI check status
-  CI_STATUS=$(gh pr checks "$PR_NUM" --repo "$REPO" --json state --jq '.[].state' 2>/dev/null | sort -u || echo "PENDING")
+  CI_STATUS=$(gh pr checks "$PR_NUM" --repo "$REPO" --json state \
+    --jq '.[].state' 2>/dev/null | sort -u || echo "PENDING")
 
   if echo "$CI_STATUS" | grep -q "PENDING"; then
-    # CI is still running. Do not wake LLM yet; retry on next 5m cycle.
-    exit 0
+    exit 0  # CI still running, retry on next cycle
   fi
 
   if echo "$CI_STATUS" | grep -q "FAILURE"; then
-    # CI failed. Move card to blocked and alert Rinoa
+    # CI failed. Move card to blocked and alert developer agent.
     openclaw workboard move "$CARD_ID" --status blocked
-    openclaw message send --to rinoa --message "CI failed for PR #$PR_NUM. Check test logs."
+    openclaw message send --to rinoa --message "CI failed for PR #$PR_NUM in $REPO. Check test logs."
     exit 0
   fi
 
-  # 4. CI passed! Only now do we invoke Kaya to perform frontier code review
+  # 4. CI passed! Only now do we invoke Kaya to perform frontier code review.
   openclaw agent --agent main --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Project 2 'Done', complete card, and alert Slack channel C0XXXXXXXXX."
 done
 ```
@@ -468,17 +471,9 @@ Once woken by `review-check.sh`, Kaya Valentini delegates the code inspection to
 
 ```json
 {
-  "task": "Review Pull Request #43 on allensandiego/mapia:
-1. Run: gh pr diff 43 --repo allensandiego/mapia
-2. Validate logic against regression, thread-safety, and test coverage.
-3. If valid:
-   - gh pr review 43 --repo allensandiego/mapia --approve -b 'LGTM: verified by @kayavalentini.'
-   - gh pr merge 43 --repo allensandiego/mapia --squash --delete-branch
-   - ~/.openclaw/scripts/gh-project-sync.sh set-status 42 'Done'
-   - openclaw workboard complete card-104
-   - Post release summary to Slack channel C0XXXXXXXXX.",
+  "task": "Review Pull Request #<PR_NUM> on <owner>/<repo>:\n1. Run: gh pr diff <PR_NUM> --repo <owner>/<repo>\n2. Validate logic against regression, platform compatibility, and test coverage.\n3. If valid:\n   - gh pr review <PR_NUM> --repo <owner>/<repo> --approve -b 'LGTM: verified by @kayavalentini.'\n   - gh pr merge <PR_NUM> --repo <owner>/<repo> --squash --delete-branch\n   - ~/.openclaw/scripts/gh-project-sync.sh set-status '<issue_url>' 'Done'\n   - openclaw workboard complete <card_id>\n   - Post release summary to Slack channel C0XXXXXXXXX.",
   "model": "deepseek/deepseek-v4-pro",
-  "label": "PR Review #18"
+  "label": "PR Review #<PR_NUM>"
 }
 ```
 
@@ -491,23 +486,24 @@ The review prompt focuses on engineering correctness:
 ### Autonomous Squash & Slack Notification
 When DeepSeek approves the diff:
 1. Kaya approves the PR on GitHub as `@kayavalentini`.
-2. The PR is squash-merged, and the temporary feature branch `fix/issue-42-fix-startup-crash` is deleted from GitHub.
+2. The PR is squash-merged, and the temporary feature branch `fix/issue-<N>-<slug>` is deleted from GitHub.
 3. The GitHub Project 2 card status updates to **Done**.
 4. The Workboard card transitions to **done** in `workboard.sqlite`.
 5. An automated deployment payload lands in Slack channel **`C0XXXXXXXXX`**:
 
 ```text
 🚀 Autonomous Fix Merged & Deployed
-• Repo: allensandiego/mapia (PR #18)
-• Issue: #42 "Mapia latest package crashes on application start"
+• Repo: <owner>/<repo> (PR #<PR_NUM>)
+• Issue: #<N> "<issue title>"
 • Author: Rinoa Heartlilly (@rinoaheartlilly)
 • Reviewer: Kaya Valentini (@kayavalentini)
-• Commit: a8f912c "fix(db): resolve connection pool starvation (#43)"
-• Tests: 14/14 passed | CI: All checks green
+• Commit: <sha> "<conventional commit message> (#<PR_NUM>)"
+• Tests: CI All checks green
 • Status: GitHub Project 2 -> Done | Workboard -> Completed
 ```
 
 ---
+
 
 ## 📊 Performance & Cost Accounting
 
