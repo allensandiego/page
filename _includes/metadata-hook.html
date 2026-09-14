@@ -110,10 +110,11 @@
             const currentSvg = node.querySelector('svg');
             if (!currentSvg) return;
             dialogBody.innerHTML = '';
+            
+            // Clone the SVG without stripping attributes so all Mermaid internal styles match
             const clonedSvg = currentSvg.cloneNode(true);
-            clonedSvg.removeAttribute('id');
 
-            // If svg does not have a viewBox but has width/height attributes or bounding box, ensure viewBox exists
+            // Ensure viewBox exists for responsive scaling
             if (!clonedSvg.getAttribute('viewBox')) {
               const bbox = currentSvg.getBBox ? currentSvg.getBBox() : null;
               if (bbox && bbox.width > 0 && bbox.height > 0) {
@@ -121,20 +122,18 @@
               }
             }
 
-            // Remove hardcoded width and height attributes so SVG fills dialog dynamically
-            clonedSvg.removeAttribute('width');
-            clonedSvg.removeAttribute('height');
-            clonedSvg.style.width = '100%';
-            clonedSvg.style.height = '100%';
-            clonedSvg.style.maxWidth = '100%';
-            clonedSvg.style.maxHeight = '100%';
+            // Remove fixed inline style constraints if present, but keep internal classes and IDs
+            clonedSvg.style.maxWidth = '90vw';
+            clonedSvg.style.maxHeight = '75vh';
+            clonedSvg.style.width = 'auto';
+            clonedSvg.style.height = 'auto';
             clonedSvg.style.display = 'block';
 
             dialogBody.appendChild(clonedSvg);
             currentZoom = 1.0;
             clonedSvg.style.transform = 'scale(1)';
 
-            // Set dialog inline dimensions to guarantee override of browser user-agent stylesheet
+            // Guarantee dialog dimensions
             dialog.style.width = '95vw';
             dialog.style.maxWidth = '95vw';
             dialog.style.height = '90vh';
