@@ -36,7 +36,7 @@ Instead, we organize our system around clear professional identities, strict sep
 | Identity | Agent Handle | Role & Title | Workspace Directory | Primary Engine / Hardware | Core Responsibilities |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Allen Sandiego** | `@allensandiego` | Product Owner & System Architect | Workstation / Git | Human-in-the-Loop | Architecture decisions, business requirements, homelab infrastructure, escalation authority. |
-| **Kaya Valentini** | `kaya`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#deployments`). |
+| **Kaya Valentini** | `kaya`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, GitHub Project `Agent Operations` management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#deployments`). |
 | **Rinoa Heartlilly** | `rinoa`<br/>``rinoa.heartlilly`` | Software Developer / Apprentice | `~/.openclaw/workspace-rinoa` | Google Gemini 3.8 Flash | Picks up `ready` cards, creates feature branches, diagnoses code, writes unit tests, submits PRs via `git-task`. |
 
 ---
@@ -235,13 +235,13 @@ OpenClaw registers the two distinct agent workspaces and their role policies:
 
 ---
 
-## 📋 Step 2: Workboard Lifecycle & GitHub Project 2 Sync
+## 📋 Step 2: Workboard Lifecycle & GitHub Project `Agent Operations` Sync
 
 OpenClaw manages tasks locally through an embedded SQLite database (`~/.openclaw/workboard.sqlite`). Every engineering task advances through a strict state machine:
 
 $$\text{ready} \longrightarrow \text{running} \longrightarrow \text{review} \longrightarrow \text{done} \quad (\text{or } \text{blocked})$$
 
-### 1. The GitHub Project 2 Sync Utility (`gh-project-sync.sh`)
+### 1. The GitHub Project `Agent Operations` Sync Utility (`gh-project-sync.sh`)
 To keep external project tracking synchronized with internal agent state, we built `~/.openclaw/scripts/gh-project-sync.sh`:
 
 ```bash
@@ -257,7 +257,7 @@ OWNER="<owner>"
 
 case "$ACTION" in
   add)
-    # Add issue or PR to GitHub Project 2 and optionally set initial status
+    # Add issue or PR to GitHub Project Agent Operations (Project #2) and optionally set initial status
     ITEM_ID=$(gh project item-add "$PROJECT_NUM" --owner "$OWNER" --url "$ITEM_REF" --format json | jq -r '.id')
     if [ -n "$STATUS_NAME" ]; then
       gh project item-edit --id "$ITEM_ID" --project-id "$PROJECT_NUM" --field-id "Status" --text "$STATUS_NAME"
@@ -305,7 +305,7 @@ echo "$ISSUES" | jq -c '.[]' | while IFS= read -r issue; do
     # 2. Create card in Workboard (status: ready, assigned to rinoa)
     openclaw workboard create --agent rinoa --status ready --notes "$URL" "$REPO#$NUM: $TITLE"
 
-    # 3. Sync to GitHub Project 2 (Status: Ready)
+    # 3. Sync to GitHub Project Agent Operations (Status: Ready)
     ~/.openclaw/scripts/gh-project-sync.sh add "$URL" "Ready"
   fi
 done
@@ -453,7 +453,7 @@ for ROW in $(echo "$CARDS_JSON" | jq -r '.cards[] | @base64'); do
   fi
 
   # 4. CI passed! Only now do we invoke Kaya to perform frontier code review.
-  openclaw agent --agent kaya --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Project 2 'Done', complete card, and alert Slack channel #deployments."
+  openclaw agent --agent kaya --message "Review Trigger: Card $CARD_ID for $REPO (PR #$PR_NUM) is ready for Senior Review. CI checks passed. Inspect PR diff using sessions_spawn with model 'deepseek/deepseek-v4-pro', approve as @kayavalentini, squash-merge, mark Agent Operations 'Done', complete card, and alert Slack channel #deployments."
 done
 ```
 
@@ -493,7 +493,7 @@ The review prompt focuses on engineering correctness:
 When DeepSeek approves the diff:
 1. Kaya approves the PR on GitHub as `@kayavalentini`.
 2. The PR is squash-merged, and the temporary feature branch `fix/issue-<N>-<slug>` is deleted from GitHub.
-3. The GitHub Project 2 card status updates to **Done**.
+3. The GitHub Project `Agent Operations` card status updates to **Done**.
 4. The Workboard card transitions to **done** in `workboard.sqlite`.
 5. An automated deployment payload lands in Slack channel **`#deployments`**:
 
@@ -505,7 +505,7 @@ When DeepSeek approves the diff:
 • Reviewer: Kaya Valentini (@kayavalentini)
 • Commit: <sha> "<conventional commit message> (#<PR_NUM>)"
 • Tests: CI All checks green
-• Status: GitHub Project 2 -> Done | Workboard -> Completed
+• Status: GitHub Project Agent Operations -> Done | Workboard -> Completed
 ```
 
 ---
