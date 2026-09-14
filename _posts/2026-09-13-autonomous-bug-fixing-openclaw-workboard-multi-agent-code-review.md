@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Autonomous Bug-to-PR: Multi-Agent Engineering with OpenClaw, Workboard, and Zero-Token Code Review"
+title: "Autonomous Bug-to-PR: Multi-Agent Engineering with OpenClaw, Workboard, and Frontier Code Review"
 date: 2026-09-13 13:00:00 +0800
 categories: [AI, Automation]
 tags: [openclaw, ai-agents, multi-agent, workboard, bugsnag, github, gemini, deepseek, qwen, devops, homelab]
-description: "A complete architectural blueprint for building an autonomous, production-ready bug-fixing pipeline using OpenClaw: Bugsnag incident ingestion, multi-agent Workboard Kanban, sandboxed execution with atomic git workflows, and zero-token idle frontier code review."
+description: "A complete architectural blueprint for building an autonomous, production-ready bug-fixing pipeline using OpenClaw: Bugsnag incident ingestion, multi-agent Workboard Kanban, sandboxed execution with atomic git workflows, and automated frontier code review."
 toc: true
 mermaid: true
 ---
@@ -79,8 +79,8 @@ flowchart TD
         RINOA -->|"Move card to review"| WORKBOARD
     end
 
-    subgraph Review["4. Zero-Token Review & Merge: Kaya Valentini"]
-        MONITOR["review-check.sh<br/>Cron every 5m / 0-token idle"]
+    subgraph Review["4. Automated Review & Merge: Kaya Valentini"]
+        MONITOR["review-check.sh<br/>Cron every 5m / Local SQLite check"]
         KAYA["Lead Orchestrator: Kaya Valentini<br/>sessions_spawn: DeepSeek V4 Pro"]
         BRANCH_PROT["GitHub Branch Protection<br/>Requires Collaborator Approval"]
         SLACK["Slack Notifications<br/>Channel #deployments"]
@@ -135,7 +135,7 @@ sequenceDiagram
     Rinoa->>WB: openclaw workboard move <card_id> to review
     Note over Rinoa: Rinoa handoff complete (cannot self-merge or call complete)
 
-    Note over Kaya,WB: review-check.sh runs every 5m (0-token local SQLite check)
+    Note over Kaya,WB: review-check.sh runs every 5m (Local SQLite check)
     Kaya->>GH: Verify GitHub Actions CI status for PR
     Kaya->>DeepSeek: sessions_spawn review subagent (diff inspection)
     DeepSeek-->>Kaya: Code approved (clean test coverage, zero regression)
@@ -146,7 +146,7 @@ sequenceDiagram
     Kaya->>Slack: Post release & PR summary to #deployments
 ```
 <p class="text-end text-muted small mt-1 mb-4">
-  <a href="https://mermaid.live/view#pako:eNqdVV1r20AQ/CuLCkWGqEmhfREl1EkgNi2pa9PkxRDOp7V89elOuQ87bsh/795JcuzEgRA/2JI8s7c7O7t6SLguMMkhsXjnUXG8EKw0rJoqoA/zTitfzdC099xpA38sGmAW+lKigglThcBSQ9o3fCEcctdr0DUzTnBRM+XgzJdWsTLQustjmPmy7ELvgi8HAXcp3MDPIB1a69ESfDQO3/0SCfKrRsOc0MoeOOzmLPBvtFnONDMFpJPfPymxA8gfbMMCNv5eM6rHCSUgXdL9AfhYKB3xzcUA6T8ppNxAasKTA5QLxHqCuAys7fX1FxgZUmyMK4FrNAd4E8l4JDUX6fmCKYUSPhRYS72pKNNQekNsJc1OTy8HOQxVidaBV0QpJBaA9xzrIBZ8BG6QOezEjdo2Ma40PdYram0Q4+jmLAdnyAyYidiAT3YBxisLSJgNfD5pPRLQ7cHlIquN/ksOyOxG8cBgRdEcQk1wzHmbwxhZsentkcNhuib7SbaG9bZvba5ZZiMVTGB2NT/lG5sRE27aUgu+tOBr4CHI3OjqyQsNN+JeP7eisPAtsG9FcQpOh8KVUOU++5WSLbou4aEC+rc0aO0+Nf4SW7jMMbsEwhsHaVOwhbm4P46qZ1eZlb6EmWGKL3oHg4SJVdqSc2igihIpTsXu4Ss4b2g8qOeUPblBOKDYzh4oYpuGn1V0XRtIgyyWRu4IpFAkZ0yn9w4BTPT4e3XfIT9reNftYHI9nwPXVS2RICmnSdGO0pDzrEJTEsuQF6TcYnovTbQ1fXNkxhfIl888/7WC9CRzeklrT2qKCM1igQjuvZiHazRivulmrc/jvoLzIbTqzCmv0XiP1q2InNK3NuBvbc3WnYyhQywuwLQQVLRQtsYYtz2942cUK4TM4ZwWPLCamrSiVZByiUxFI5AaVBVFO4J/aILW0ahPsfYmm4zc5pBDv4kWttP3sClX3eJ8hRebkMPkzjO7aFsiFLW3YiLspAJj4xqTv2Wr7DjsQit80y7p7LH11x4rbtkcRjRHVCZpZJESG41J8Kpi1HvKdnf1JkeQUCFUQBHeng/TxC2wwindTJMC58xLN00eAyy8RCeUeBIWqie1E18XNObtm7Z9/PgfjvSQlg==" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
+  <a href="https://mermaid.live/view#pako:eNqdVV1r20AQ/CuLCkWGqGmhfREl1EkgNg2pa9PkxRDOp7V89elOuQ87bsh/795JcuzEgRA/2JI8s7c7O7t6SLguMMkhsXjnUXE8F6w0rJoqoA/zTitfzdC099xpA38sGmAW+lKigglThcBSQ9o3fCEcctdr0DUzTnBRM+Xg1JdWsTLQustjmPmy7ELvgi8GAXch3MDPIB1a69ESfDQO3/0SCfKrRsOc0MoeOOzmNPBvtFnONDMFpJPfl5TYAeRPtmEBG3+vGdXjhBKQLun+AHwslI745mKA9J8UUm4gNeHJAco5Yj1BXAbW9vr6K4wMKTbGlcA1mgO8iWQ8kpqL9GzBlEIJHwqspd5UlGkovSG2kmYnJxeDHIaqROvAK6IUEgvAe451EAs+AjfIHHbiRm2bGFeaHusVtTaIcXRzmoMzZAbMRGzAJ7sA45UFJMwGvnxuPRLQ7cHlIquN/ksOyOxG8cBgRdEcQk1wzHmbwxhZsentkcNhuib7SbaG9bZvba5ZZiMVTGB2NT/lG5sRE27aUgu+tOBr4CHI3OjqyQsNN+JeP7eisPA9sG9FcQJOh8KVUOU++5WSLbou4aEC+rc0aO0+Nf4SW7jMMbsEwhsHaVOwhbm4P46qZ1eZlb6EmWGKL3oHg4SJVdqSc2igihIpTsXu4Rs4b2g8qOeUPblBOKDYzh4oYpuGn1V0XRtIgyyWRu4IpFAkZ0yn9w4BTPT4e3XfIT9reNftYHI9nwPXVS2RICmnSdGO0pDzrEJTEsuQF6TcYnovTbQ1fXNkxhfIl888/62C9FJTJGgWCkRQ78UcXKMR8003Y30e9xScDaFVZU75jMZ7tG415JS2tQF/a2u27uQLnWFx8aWFoGKFsjXGuO3pHT+jWCFkDme02IHV1JwVrYCUS2QqGoBUoGoo2hH8QxM0jgZ9irU30WTgNocc+k20sJV+hA256hbmK7wofg6TO8/som2FUNTWiomwiwqMDWvM/ZZtsuOsc63wTTuks8XWV3usuF1zGNH8UJmkkUVKbDQmwauKUc8p292VmxxBQoVQAUV4az5ME7fACqd0M00KnDMv3TR5DLDw8pxQ4klYpJ7UTnxd0Hi3b9j28eN//N6N2A==" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
 </p>
 
 ---
@@ -405,7 +405,7 @@ Protected Branch: main
 
 ---
 
-## 💰 Step 5: The Zero-Token Review Monitor (`review-check.sh`)
+## 🔍 Step 5: The Review Monitor Script (`review-check.sh`)
 
 If an orchestrator agent polls a frontier model like DeepSeek V4 Pro or Claude every 5 minutes to ask *"Are there any PRs to review?"*, it wakes up **288 times a day**. Even when the queue is completely empty, context ingestion costs would burn through API budgets.
 
@@ -530,7 +530,7 @@ Here is the operational breakdown across a typical 24-hour cycle handling 5 prod
 
 1. **Role Specialization is Safety:**
    Separating **Chief of Staff (Kaya)** from **Developer Apprentice (Rinoa)** enforces accountability. Rinoa cannot self-merge or close cards; Kaya orchestrates and reviews.
-2. **Zero-Token Polling Saves Budgets:**
+2. **Local Queue Monitoring Saves Budgets:**
    Never poll queues or watch PRs using paid LLMs. Use deterministic shell scripts against local SQLite databases to trigger model inference strictly on actionable state changes.
 3. **Local GPUs Handle the High-Frequency Noise:**
    Running Qwen 3.5 2B on a modest GTX 1650 provides free, 24/7 background intelligence for cron and triage tasks, preserving cloud budget for high-reasoning code analysis and reviews.
