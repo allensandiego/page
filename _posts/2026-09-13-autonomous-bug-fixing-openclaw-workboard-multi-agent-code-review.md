@@ -247,7 +247,7 @@ ACTION="${1:-}"
 ITEM_REF="${2:-}"
 STATUS_NAME="${3:-}"
 PROJECT_NUM=2
-OWNER="allensandiego"
+OWNER="<owner>"
 
 case "$ACTION" in
   add)
@@ -277,7 +277,7 @@ A periodic cron automation queries GitHub for new issues labeled `bug` or genera
 # ~/.openclaw/scripts/triage-issues.sh
 set -eo pipefail
 
-PROJECT_OWNER="allensandiego"
+PROJECT_OWNER="<owner>"
 DB_PATH="$HOME/.openclaw/plugins/workboard/workboard.sqlite"
 
 # Discover open issues across all repositories assigned for triage
