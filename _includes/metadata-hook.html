@@ -112,35 +112,13 @@
             dialogBody.innerHTML = '';
             const clonedSvg = currentSvg.cloneNode(true);
             clonedSvg.removeAttribute('id');
-
-            // If svg does not have a viewBox but has width/height attributes or bounding box, ensure viewBox exists
-            if (!clonedSvg.getAttribute('viewBox')) {
-              const bbox = currentSvg.getBBox ? currentSvg.getBBox() : null;
-              if (bbox && bbox.width > 0 && bbox.height > 0) {
-                clonedSvg.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
-              }
-            }
-
-            // Remove hardcoded width and height attributes so SVG fills dialog dynamically
-            clonedSvg.removeAttribute('width');
-            clonedSvg.removeAttribute('height');
-            clonedSvg.style.width = '100%';
-            clonedSvg.style.height = '100%';
             clonedSvg.style.maxWidth = '100%';
             clonedSvg.style.maxHeight = '100%';
-            clonedSvg.style.display = 'block';
-
+            clonedSvg.style.width = 'auto';
+            clonedSvg.style.height = 'auto';
             dialogBody.appendChild(clonedSvg);
             currentZoom = 1.0;
             clonedSvg.style.transform = 'scale(1)';
-
-            // Set dialog inline dimensions to guarantee override of browser user-agent stylesheet
-            dialog.style.width = '95vw';
-            dialog.style.maxWidth = '95vw';
-            dialog.style.height = '90vh';
-            dialog.style.maxHeight = '90vh';
-            dialog.style.margin = 'auto';
-
             dialog.showModal();
           }
 
