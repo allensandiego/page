@@ -36,8 +36,8 @@ Instead, we organize our system around clear professional identities, strict sep
 | Identity | Agent Handle | Role & Title | Workspace Directory | Primary Engine / Hardware | Core Responsibilities |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Allen Sandiego** | `@allensandiego` | Product Owner & System Architect | Workstation / Git | Human-in-the-Loop | Architecture decisions, business requirements, homelab infrastructure, escalation authority. |
-| **Kaya Valentini** | `main`<br/>`<kaya.valentini>` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#C0XXXXXXXXX`). |
-| **Rinoa Heartlilly** | `rinoa`<br/>`<rinoa.heartlilly>` | Software Developer / Apprentice | `~/.openclaw/workspace-rinoa` | Google Gemini 3.8 Flash | Picks up `ready` cards, creates feature branches, diagnoses code, writes unit tests, submits PRs via `git-task`. |
+| **Kaya Valentini** | `main`<br/>``kaya.valentini`` | Chief of Staff & Lead Orchestrator | `~/.openclaw/workspace` | Local Qwen 3.5 2B (`llama.cpp` on GTX 1650) + DeepSeek V4 Pro | Issue triage, Project 2 management, PR code reviews, merge approvals, branch deletions, Slack alerts (`#C0XXXXXXXXX`). |
+| **Rinoa Heartlilly** | `rinoa`<br/>``rinoa.heartlilly`` | Software Developer / Apprentice | `~/.openclaw/workspace-rinoa` | Google Gemini 3.8 Flash | Picks up `ready` cards, creates feature branches, diagnoses code, writes unit tests, submits PRs via `git-task`. |
 
 ---
 
