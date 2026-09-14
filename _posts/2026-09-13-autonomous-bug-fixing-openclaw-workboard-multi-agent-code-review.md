@@ -56,10 +56,10 @@ flowchart TD
     subgraph Triage["2. Issue Triage & Synchronization"]
         TRIAGE["triage-issues.sh<br/>Scheduled Cron Job"]
         WORKBOARD[("OpenClaw Workboard<br/>workboard.sqlite<br/>ready / running / review / done")]
-        GH_PROJ["GitHub Project 2<br/>Ready / In progress / In review / Done"]
+        GH_PROJ["GitHub Project: Agent Operations<br/>Ready / In progress / In review / Done"]
         
         GH_ISSUES --> TRIAGE
-        TRIAGE -->|"1. Add to Project 2: Ready"| GH_PROJ
+        TRIAGE -->|"1. Add to Agent Operations: Ready"| GH_PROJ
         TRIAGE -->|"2. Create Card: ready"| WORKBOARD
     end
 
@@ -99,7 +99,7 @@ flowchart TD
     end
 ```
 <p class="text-end text-muted small mt-1 mb-4">
-  <a href="https://mermaid.live/view#pako:eNqNVmuP2zYQ_CuECgQtENttkgKFUQTQ2VefcjnbtZw7tHEQUNJaZk2TOj7OcZP0t3dJ0Q/5AZw/ySJnuTuzs9TXKJcFRF0Szblc5wuqDJn2Z4LgT9usVLRakESUoA2T4uMs+qVNRpkG9UQzxpnZkBf75Vn0qUa6Xzwep7h/rGRhc7dK4qrSuIW0Wm+/zaLrLzlU7j2++0auPgzSYTxAwJUttaBlI1ZYDcgHyBZSLgNscD1BVI9LW8w5VUAepFqC6pLMliWo4zi4PYTpKaAGSKK1BRdrcPM5SdMP1y7rATM3NqvX9C4EiGImjriZKkZLQMirdr09vEFe0o3IF0oK9i89YWc6SeLBNcKM391i/qS2Xvyeqc7bNF9AYTkUpId48k5mDfDDaHJ7NYon/Y8/zqJRBaLH6drXnUmqCh9ivf3X1o+oE/iXWHGxIR2irBBMlO4Jnhis8aGQAln46eAU5GM8Gb3bs4FS/gO5Ia98rEmIlQhSKVkq0Lr+twvZ9yEPIjZi11w7LQIZx+QEmbDh4qIgRu7P7xJ/eBDNJXkBi5oElXvIRJeoLWzH4GVhr79AbkPTv26TPjwBlxWo/QKmwYSk5AbQNZxxvmlUO0mGoxjBe2RcgjCYhUN5DgewYoKR1+3fyB+c6sWJyuk47rkuSbTkWEbhRdYVzWs9/+u0MbDIUf7OervS8vEboQbJdBqntxioZKZlqF6SdIkJ+yDaPemOW3Ex3BzobLddkG9HX+B5zPKlJjlyTJjYs+wZOCIkIO7kE9QAFDa04xlhjmEpGKINNVY73EHrne2FQ+SucIQrsz3K83uG8gDqozeF1PCSjKnJF+jpKU66Z4L3J9pshc+V8knWUpxo0xxK40mYH3tD7So8MKTlHK3waH1Sny7FPCHtKOAlypoa7TDP8M7Eb8ZE37TJ36BkayqXIMJrrOwOVAldcks3lNxTjq5AGzQquBsNk+nI1Vof3MKJmC+389FPRbSV2pBfVzhpfm4ZfwAreHPi3MZ/OQu+x44kI4UxtFHUSHV8dm0E7CN3H31GG63R3X2AKgVYkvs3bvY0b5JJPOx58qZ7Pa4UxYnv9hrwV14YlI+WYY+SnuScZtIn4C5DJZ8ob0RN38c959KU03xJhtKwOcv95aHruhdUCODkhwIqLjcrTF4/06J/WseWU1PXHt3KGZg+oT7g7kGx+Yb0EtJzCmh0ArJUm9V3zyUgXoPu/g2iu+1OjKY0YWsidOUGe8Hmc9f3OF+V+7Q46tOjq8lfHQc6nA1d04zkvyD60eKIba1c79XfHOewBy+3NnAAkssVmjjkchcnQ5RJYolMdFaUiZOu204Q4IB+nqOrLX6bZL5DzlR0AGnatb5Ezzj1ALG7612WlT/QCX1hnh4Ax1IbbPNtL5HUrlZU+dntW3Hn8OgliZA4rLRw34pf8btlAStMrEtmUQFzajly891to9ZIN7lwySiLozOyVYEzzc1SRVfh9ff/ASmPOz8=" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
+  <a href="https://mermaid.live/view#pako:eNqNVmuP2zYQ/CsLFwhaILbbJgEKowigk68+5XK2azl3aOMgoCRaZk2TOj7OcZP0t3dJ0Q/5AZw/ySJnuTuzs9TXVi4L2upBa87lOl8QZWDanwnAn7ZZqUi1gESUVBsmxcdZ65cOjDJN1RPJGGdmAy/2y7PWpxrpftF4nOL+sZKFzd0qRFWlcQu022+/zVrXX3Jauff47htcfRikw2iAgCtbakHKRqywGpAPNFtIuQywwfUEUTGXtphzoig8SLWkqgeZLUuqjuPg9hAmVpQYConWlrpYg5vPSZp+uHZZD5i5sVm9pnchqChm4oibqWKkpAj5tVNvD2+Ql3Qj8oWSgv1LTtiZTpJocI0w43e3mT+poxe/Z6r7Ns0XtLCcFhAjHt7JrAF+GE1ur0bRpP/xx1lrVFERc7L2dWeSqMKHWG//dfQj6kT9S6y42EAXlBWCidI90SdG1/hQSIEs/HRwCvIxnoze7dlAKf+huelBVFJhAA9WvjDtY09C7ERApWSpqNb1v90RfX/EwQmNs2runTaBnGOygmzYgFFRgJEnafTA5xC0dLlfCIFSBfFjJKgHagvbEXtZ7+svNLfBC6860KdPlEtMYb+AaTAhCdxQNBNnnG8aRU+S4ShC8B7p68AsHMpTOaArJhi86vwGf3CiFyfip+Mods2TaMmxjMJrryuS1zL/1+1gYJFjV3TX25W2j98INUim0yi9xUAlM21D9BLSJSbsg2j3pLtuxcVw46G73XZBxR19gecxy5cacuQYmNiz7Bk4IiQg7uQTrQGob+jSM8Icw1JqQBtirHa4gw482wuHyF3hCFdme5Tn9wzlAdRHywqp6UsYE5Mv0OpTHIDPBO9PtNkKnyvlk6ylONGmOavGkzBW9r7aVXjgU8s5WuHR+qQ+XYp5QtpRwEuUNTXaYZ7hnYnfjIm+7sDfVMn2VC6pCK+xsjuqStqDW7IhcE84ugJt0KjgbjRMpiNXa31wGwdlvtyOTT8s0VZqA29WOHB+bht/ACt4c/DcRn85C77HjoSRwhja4AyR6vjs2gjYR268fEYbrdHdfUqrlNIl3L92I7F5wUyiYezJm+71uFIELwK311B/E4Z5+WgZ9ijEknOSSZ+AuyOVfCK8ETV9H8XOpSkn+RKG0rA5yw9Gb7wgQlAOPxS04nKzwuT1My36p3VsOTV17dGtnIHpE+oD7p4qNt9AnEDsFNDoBGSpNqvvnktAvB3dtRxEd9udGE1pwtZE6AoJg4LN567vcb4q98Vx1KdHN5a/QQ50OBu6phnJfwH60eKIba9c79WfIuewBy+3NnAAyOUKTRxyuYuSIcoksUQmuivCxEnXbScI5RT9PEdXW/xkyXyHnKnoANK0a32XnnHqAWL3CeCyrPyBTugL8/QAOJbaYJtvewlSu1oR5We3b8Wdw1svoYXEYaWF+4T8ip8zC7rCxHowaxV0TixHbr67bcQa6SYXLhllcXS2bFXgTHOzVJFVeP39f+tmRIQ=" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
 </p>
 
 ---
@@ -113,7 +113,7 @@ sequenceDiagram
     autonumber
     actor User as Allen Sandiego (Architect)
     participant Bugsnag as Bugsnag / bugger
-    participant GH as GitHub (Issues / PRs / Proj 2)
+    participant GH as GitHub (Issues / PRs / Agent Operations)
     participant WB as Workboard (SQLite)
     participant Kaya as Kaya Valentini (kaya)
     participant Rinoa as Rinoa Heartlilly (rinoa)
@@ -146,7 +146,7 @@ sequenceDiagram
     Kaya->>Slack: Post release & PR summary to #deployments
 ```
 <p class="text-end text-muted small mt-1 mb-4">
-  <a href="https://mermaid.live/view#pako:eNqdVV1v20YQ/CsLFigowGzSonkhCqP+AGyjReBKqP0iIDgdV9RVxzvmPmwrQf57546kbCUyEEQPEknt7M3Ozi4/F9I2XNRUeP4Y2Ui+VKJ1olsawkfEYE3sVuzGexmso389OxKezrRmQwthGsWtpfLMyY0KLMNsiO6FC0qqXphA57H1RrQJNl2+oVVs2yn1y+Cr6xR3pcJ1XFF5431kj/Dbef529j/67cgR9+cJdW/ddmWFa6hc/PM36ByJ/EvsRIrNv3cCVQRlFJVb3B8Jnytjc/xwcc34Tyutd1S69OQI5JK5XzBvE2p/ffd7Ik/lnB8UP7I7gltoITNouCgvNsIY1vRTw722uw5MPWADcBSyOj29uq7pxrTsA0UDSKO5IX6S3AdlDf1M0rEIPEmaFR1yvLd4bB/Q0CTGyf15TcHBAlypLPsvfkMuGk+MmB39+nZ0RooeD243VY+eoO+V3xmZEKJphkPQhCBC9DXNWTS72QE4HWZ7mE6LR3rc923kWlU+Q8kl5FTzM9/cjEx4aEuv5NZT7EmmJGtnu2cvDNgc9/q5HdLSHwn9QTWnFGwq3CjTHqJfKdlzmAjfGMK/rWPvD6H5F2gVqiD8lhDvApVDwZ7W6ulNVr16X3kdW1o5YeRmdjRJmlNjPZyDMWpaRp5OPNE7CtEZP0PPwR5uUIGQO/gjRexpxFWH695RmWTxGLQT0spAzkxn9gMCuOzxH9X9Bfirhk/dTia36zVJ2/WaEVJKTIoNoKHXVceuBcrBC1rvY2bfmmhv+uHISm5Ybr/y/LuOyrdVsFssO22RkYbFQjl49s083LFT6900a2cyjaCnixsa1VmD1+38ADatiBr0vU/xH3wvHicZU4cwktgPZaNQtDK+55x3PH3CV8iVUtZ0gbVOokeTHrAKSqlZmGwEqIGqkO2EPrFLWmejPuc6mGwYeeRQ09mQLW2nP9OmfJgW5yu43ISaFh+j8JuxJcqgvZ1QaSc1nBs3mPx7tsoLh11aw9+1SyZ77P11gMpbtqZbzBHKhEaeQex2DsG7TqD3YPty9RYnVKAQFNCkd+bnZRE23PESN8ui4bWIOiyLLyksvToXIF6khRqhdhH7BmM+vl/Hx1/+Bw6UjFA=" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
+  <a href="https://mermaid.live/view#pako:eNqdVV1r20AQ/CuLCkWGqEmhfREl1EkgNi2pa9PkxRDOp7V89elOuQ87bsh/795JcuzEgRA/2JI8s7c7O7t6SLguMMkhsXjnUXG8EKw0rJoqoA/zTitfzdC099xpA38sGmAW+lKigglThcBSQ9o3fCEcctdr0DUzTnBRM+XgzJdWsTLQustjmPmy7ELvgi8HAXcp3MDPIB1a69ESfDQO3/0SCfKrRsOc0MoeOOzmLPBvtFnONDMFpJPfPymxA8gfbMMCNv5eM6rHCSUgXdL9AfhYKB3xzcUA6T8ppNxAasKTA5QLxHqCuAys7fX1FxgZUmyMK4FrNAd4E8l4JDUX6fmCKYUSPhRYS72pKNNQekNsJc1OTy8HOQxVidaBV0QpJBaA9xzrIBZ8BG6QOezEjdo2Ma40PdYram0Q4+jmLAdnyAyYidiAT3YBxisLSJgNfD5pPRLQ7cHlIquN/ksOyOxG8cBgRdEcQk1wzHmbwxhZsentkcNhuib7SbaG9bZvba5ZZiMVTGB2NT/lG5sRE27aUgu+tOBr4CHI3OjqyQsNN+JeP7eisPAtsG9FcQpOh8KVUOU++5WSLbou4aEC+rc0aO0+Nf4SW7jMMbsEwhsHaVOwhbm4P46qZ1eZlb6EmWGKL3oHg4SJVdqSc2igihIpTsXu4Ss4b2g8qOeUPblBOKDYzh4oYpuGn1V0XRtIgyyWRu4IpFAkZ0yn9w4BTPT4e3XfIT9reNftYHI9nwPXVS2RICmnSdGO0pDzrEJTEsuQF6TcYnovTbQ1fXNkxhfIl888/7WC9CRzeklrT2qKCM1igQjuvZiHazRivulmrc/jvoLzIbTqzCmv0XiP1q2InNK3NuBvbc3WnYyhQywuwLQQVLRQtsYYtz2942cUK4TM4ZwWPLCamrSiVZByiUxFI5AaVBVFO4J/aILW0ahPsfYmm4zc5pBDv4kWttP3sClX3eJ8hRebkMPkzjO7aFsiFLW3YiLspAJj4xqTv2Wr7DjsQit80y7p7LH11x4rbtkcRjRHVCZpZJESG41J8Kpi1HvKdnf1JkeQUCFUQBHeng/TxC2wwindTJMC58xLN00eAyy8RCeUeBIWqie1E18XNObtm7Z9/PgfjvSQlg==" target="_blank" rel="noopener noreferrer">🔍 View Full Diagram on Mermaid Live ↗</a>
 </p>
 
 ---
