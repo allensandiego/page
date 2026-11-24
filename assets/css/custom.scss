@@ -283,3 +283,46 @@
   align-items: center;
 }
 
+/* Social Badges in Hero */
+.btn-social-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-bg);
+  color: var(--text-color) !important;
+  font-weight: 600;
+  font-size: 0.925rem;
+  padding: 9px 18px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
+}
+
+.btn-social-github {
+  i {
+    color: var(--text-color);
+  }
+
+  &:hover {
+    border-color: var(--link-color);
+  }
+}
+
+.btn-social-youtube {
+  i {
+    color: #ff0000;
+  }
+
+  &:hover {
+    border-color: #ff0000;
+  }
+}
+
